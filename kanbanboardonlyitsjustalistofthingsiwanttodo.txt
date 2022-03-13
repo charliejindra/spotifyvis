@@ -1,0 +1,9 @@
+LIST OF FEATURES I WANT TO MAKE
+- bing image search for artist/song title and show image
+- image search thru wikipedia (with caption would actually be rlly cool)
+- scrape rate your music, or maybe other review sites too, for snippet of review
+- pitchfork review snippet
+- some analytics thing, like genre, or maybe some running tally of something (think on this one more)
+- genius api -- can we get the overall song analysis if its there?
+    - yes, but all api calls (for a server side app) have to be authenticated via bearer token
+    - is it worth it to do login to get that info? probably eventually but not now

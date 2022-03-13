@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { async } from 'rxjs/internal/scheduler/async';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractAuthService } from '../auth-service/abstract-auth-service';
 import { AbstractSpotifyApiService } from './abstract-spotify-api.service';
@@ -39,4 +40,20 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
             console.log(err);
         });
     }
+
+    // public artistImageCall(artistId) {
+    //     // const sleep = (milliseconds) => {
+    //     //     return new Promise(resolve => setTimeout(resolve, milliseconds))
+    //     // }
+
+    //     this.spotifyApi.getArtist(artistId).then(
+    //         function (data) {
+    //             return of(data);
+    //         },
+    //         // function (err) {
+    //         //     console.error(err);
+    //         // }
+    //     );
+        
+    // }
 }

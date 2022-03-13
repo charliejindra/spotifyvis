@@ -1,25 +1,88 @@
 h1 {
-    font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    font-family: Sitka Banner, Arial, Helvetica, sans-serif;
     font-size: 80px;
+    font-weight: bold;
+    font-style: italic;
+    color:black;
 }
+
+h2 {
+    font-family: Sitka Banner , Arial, Helvetica, sans-serif;
+    color:black;
+    /* overflow-wrap: break-word;  */
+    font-size: 60px;
+}
+
+.song_title {
+  animation-duration: 5s;
+  animation-name: songscroll;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  white-space: nowrap;
+}
+
+.center-cropped {
+    width: 50vw;
+    height: 53vh;
+    object-fit: none; /* Do not scale the image */
+    object-position:initial ;
+    box-shadow: 5px 5px 10px black;
+}
+
+.artistImgBox {
+    padding-top: 3vh;
+}
+/* 
+@media screen and (max-width: 1500px){
+    h1 {
+        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color:black;
+        font-size: 50px;
+    }
+    h2 {
+        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+        color:black;
+        overflow-wrap: break-word; 
+        font-size: 35px;
+    }
+} */
 
 @media screen and (max-width: 1500px){
     h1 {
-        font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
+        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
         font-weight: bold;
-        font-size: 50px;
+        color:black;
+        font-size: 7.6vh;
+    }
+    h2 {
+        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+        color:black;
+        /* overflow-wrap: break-word;  */
+        font-size: 5.6vh;
+    }
+}
+
+@keyframes songscroll {
+    from {
+      transform: translateX(-50%);
+    }
+  
+    to {
+      transform: translateX(50%);
     }
 }
 
 
-h2 {
+h3 {
     font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
     color:black;
+    overflow-wrap: break-word; 
 }
 
 img.album_art {
-    box-shadow: 5px 5px black;
+    box-shadow: 5px 5px 10px black;
 }
 
 div.frame {
@@ -39,4 +102,57 @@ div.frame {
     right: 0;
     bottom: 0;
     z-index: -1;
+  }
+
+.news_img {
+    width: 600px;
+}
+
+
+
+
+
+
+  .marquee {
+    width: 40vw;
+    /* margin: 0 auto; */
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  .marquee span {
+    display: inline-block;
+    width: max-content;
+  
+    /* padding-left: 80%; */
+    /* padding-right: %; */
+    /* show the marquee just outside the paragraph */
+    will-change: transform;
+    animation: marquee 3s linear infinite alternate;
+  }
+  
+  .marquee span:hover {
+    animation-play-state: paused
+  }
+  
+  
+  /* @keyframes marquee {
+    0% { transform: translate(0%, 0); }
+    20% { transform: translate(0%, 0); } 
+    100% { transform: translate(-25%, 0); }
+  } */
+  
+  
+  /* Respect user preferences about animations */
+  
+  @media (prefers-reduced-motion: reduce) {
+    .marquee span {
+      animation-iteration-count: 1;
+      animation-duration: 0.01; 
+      /* instead of animation: none, so an animationend event is 
+       * still available, if previously attached.
+       */
+      width: auto;
+      padding-left: 0;
+    }
   }

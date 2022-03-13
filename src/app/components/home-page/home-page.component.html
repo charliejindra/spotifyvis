@@ -1,19 +1,33 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div id="background" class="bg" [style.background-color]="bgcolor">
 </div>
 <div class="frame noblur" style="display:inline-block;">
     <img class="album_art" [src]="albumImg" style="height:90vh;
 "/>
 </div>
-<div class="frame noblur" style="display:inline-block;">
-    <h1>{{ playing }}</h1>
+<div class="frame noblur" style="display:inline-block; width: 40vw">
+    <h1 id="song_title">
+        <span id="song_text">{{ playing }}</span>
+    </h1>
     <h2>{{ artist }}</h2>
     <div [style.width]="complete" style="height:3px; background: black; display:inline-block;"></div>
     <div [style.width]="duration" style="height:3px; background: lightgrey; display:inline-block;"></div>
     <br/>
     <app-stream-audio></app-stream-audio>
     <br/>
-    <h1>{{ newsHeadline }}</h1>
-    <h2>{{ newsDesc }}</h2>
-    <img class="news_img" [src]="newsImgUrl"/>
+    
+    <div *ngIf="story; else artistPic">
+        <div>
+            <h2 >{{ newsHeadline }}</h2>
+            <img class="news_img" style="display:inline" [src]="newsImgUrl"/>
+            <h3 style="display:inline-block;">{{ newsDesc }}</h3>
+        </div>
+    </div>
+    <ng-template #artistPic>
+        <div class="artistImgBox">
+            <img *ngIf="artistImg" [src]="artistImg" class="center-cropped"/>
+        </div>
+    </ng-template>
+    
+    
 </div>
-<!-- <h1>home</h1> -->

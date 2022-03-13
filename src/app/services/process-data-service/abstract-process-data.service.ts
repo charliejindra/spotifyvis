@@ -4,6 +4,12 @@ export abstract class AbstractProcessDataService {
     public abstract dataPacket: any;
     public abstract resetDataPacket();
     public abstract newsPacket: BehaviorSubject<any>;
+    public abstract colorPacket: BehaviorSubject<any>;
+    public abstract artistImagePacket: BehaviorSubject<any>;
+    public abstract rymReviewPacket: BehaviorSubject<any>;
     public abstract newsAPI(any);
-    public abstract getColor();
+    public abstract getColor(string);
+    public abstract getArtistImage(string);
+    abstract getWikipediaImage()
+    //public abstract getRymReview(artist, album);
 }

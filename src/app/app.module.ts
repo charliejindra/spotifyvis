@@ -14,6 +14,8 @@ import { AbstractProcessDataService } from './services/process-data-service/abst
 import { ProcessDataService } from './services/process-data-service/process-data.service';
 import { AbstractPrettifyService } from './services/prettify-service/abstract-prettify.service';
 import { PrettifyService } from './services/prettify-service/prettify.service';
+import { AbstractSpotifyApiService } from './services/spotify-api-service/abstract-spotify-api.service';
+import { SpotifyApiService } from './services/spotify-api-service/spotify-api.service';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -34,7 +36,8 @@ export function initializeApp(appconfig: AppConfig){
     { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfig], multi: true},
     {provide: AbstractProcessDataService, useClass: ProcessDataService},
     { provide: AbstractAuthService, useClass: AuthService },
-    { provide: AbstractPrettifyService, useClass: PrettifyService}
+    { provide: AbstractPrettifyService, useClass: PrettifyService},
+    {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService}
   ],
   bootstrap: [AppComponent]
 })

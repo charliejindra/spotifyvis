@@ -9,8 +9,6 @@ import { AbstractProcessDataService } from 'src/app/services/process-data-servic
 import { ProcessDataService } from 'src/app/services/process-data-service/process-data.service';
 import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
 
-
-
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -28,10 +26,13 @@ export class HomePageComponent {
   public newsHeadline: any;
   public newsImgUrl: any;
   public newsDesc: any;
+  public artistImg: any;
+  public story = false;
 
   constructor(private router:Router,
     public authService: AbstractAuthService, spotifyService: SpotifyApiService, 
     public processDataService: AbstractProcessDataService, private prettify: AbstractPrettifyService){
+      this.story = false;
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -69,21 +70,38 @@ export class HomePageComponent {
           this.artist = data["item"]["artists"][0]["name"];
           this.albumImg = data["item"]["album"]["images"][0]["url"];
 
+
+          var artistId = data["item"]["artists"][0]["id"];
+          this.processDataService.getArtistImage(artistId);
+
           this.playing = this.prettify.prepareTrackTitle(data["item"]["name"]);
+          
+          this.processDataService.getWikipediaImage();
 
           this.processDataService.resetDataPacket();
-          this.processDataService.getColor();
+          this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
           this.processDataService.newsAPI(this.artist);
+
+          var ablum_title = data["item"]["album"];
           
           this.processDataService.newsPacket.subscribe((packet) => {
-            this.newsHeadline = packet["news"]["title"];
-            this.newsDesc = packet["news"]["description"];
-            this.newsImgUrl = packet["news"]["newsImgUrl"];
+            this.newsHeadline = packet["headline"];
+            this.newsDesc = packet["description"];
+            this.newsImgUrl = packet["url"];
           });
           
+          this.processDataService.colorPacket.subscribe((packet)=> {
+            const color = packet.color;
+            this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+          });
+
+          this.processDataService.artistImagePacket.subscribe((packet)=> {
+            this.artistImg = packet.src;
+          });
           
-          const color = this.processDataService.dataPacket.color_thief.color;
-          this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+          this.processDataService.rymReviewPacket.subscribe((packet)=>{
+            
+          });
 
         }
 
@@ -103,7 +121,7 @@ export class HomePageComponent {
       
     } else {
       this.playing = "Play a song to get started!"
-      this.artist = "";
+      this.artist = "Play a song to get started!";
       this.albumImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/1200px-Square_-_black_simple.svg.png";
       this.complete = "0vw";
       this.duration = "50vw";
