@@ -79,10 +79,9 @@ export class HomePageComponent {
           this.processDataService.getWikipediaImage();
 
           this.processDataService.resetDataPacket();
-          this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
           this.processDataService.newsAPI(this.artist);
 
-          var ablum_title = data["item"]["album"];
+          var album_title = data["item"]["album"];
           
           this.processDataService.newsPacket.subscribe((packet) => {
             this.newsHeadline = packet["headline"];
@@ -104,6 +103,7 @@ export class HomePageComponent {
           });
 
         }
+        this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
 
         const msPassed = data["progress_ms"];
         const msTotal = data["item"]["duration_ms"];

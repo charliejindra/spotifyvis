@@ -14,7 +14,7 @@ h2 {
 }
 
 .song_title {
-  animation-duration: 5s;
+  animation-duration: 7s;
   animation-name: songscroll;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -27,7 +27,7 @@ h2 {
     height: 53vh;
     object-fit: none; /* Do not scale the image */
     object-position:initial ;
-    box-shadow: 5px 5px 10px black;
+    box-shadow: 5px 5px black;
 }
 
 .artistImgBox {
@@ -82,7 +82,7 @@ h3 {
 }
 
 img.album_art {
-    box-shadow: 5px 5px 10px black;
+    box-shadow: 5px 5px black;
 }
 
 div.frame {

@@ -1,9 +1,3 @@
-import { keyframes } from '@angular/animations';
-import { ComponentFactoryResolver, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { title } from 'process';
-import { BehaviorSubject } from 'rxjs';
-import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractPrettifyService } from './abstract-prettify.service';
 
 @Injectable({
@@ -98,12 +92,6 @@ export class PrettifyService implements AbstractPrettifyService{
 }
 
 function removeAndAppendMarquee(sWidth, hWidth) {
-  // get length of span that has song title
-  // let titleHeader = document.getElementById('song_title');
-  // let titleSpan = titleHeader.children[0];
-  // let titleWidth = titleSpan.clientWidth;
-  // let headerWidth = titleHeader.clientWidth;
-  // console.log(`${titleWidth.toString()}-${headerWidth.toString()}=${(titleWidth-headerWidth).toString()}`);
 
   var ss = document.styleSheets;
   let rule = 'marquee';

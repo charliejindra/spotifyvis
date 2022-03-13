@@ -81,20 +81,20 @@ export class ProcessDataService implements AbstractProcessDataService{
     }
 
     private funnelColor(){
-    const colorThief = new ColorThief();
-    const img = document.querySelector('img');
-    //img.removeEventListener('load');
-    img.crossOrigin = "Anonymous";
-    
-    var palette = colorThief.getPalette(img, 3);
+        const colorThief = new ColorThief();
+        const img = document.querySelector('img');
+        //img.removeEventListener('load');
+        img.crossOrigin = "Anonymous";
+        
+        var palette = colorThief.getPalette(img, 3);
 
-    palette = this.filterBadColors(palette);
-    var color = palette[Math.floor(Math.random() * palette.length)];
+        palette = this.filterBadColors(palette);
+        var color = palette[0];
 
-    this.colorPacket.next({
-        "done": true,
-        "color": color
-    });
+        this.colorPacket.next({
+            "done": true,
+            "color": color
+        });
     }
 
     private filterBadColors(colorList){
