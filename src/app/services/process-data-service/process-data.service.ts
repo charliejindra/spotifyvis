@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractProcessDataService } from './abstract-process-data.service';
 import ColorThief from '../../../../node_modules/colorthief/dist/color-thief';
 import { promise } from 'protractor';
@@ -11,25 +10,33 @@ import { HomePageComponent } from 'src/app/components/home-page/home-page.compon
 import { HttpClient, HttpEvent, HttpHandler } from '@angular/common/http';
 import { SpotifyApiService } from '../spotify-api-service/spotify-api.service';
 import { AbstractSpotifyApiService } from '../spotify-api-service/abstract-spotify-api.service';
-//import axios from 'axios';
-//import * as cheerio from 'cheerio';
-import { PrettifyService } from '../prettify-service/prettify.service';
-import { AbstractPrettifyService } from '../prettify-service/abstract-prettify.service';
+import wikiBlacklist  from './wikiBlacklist.json';
+const wiki = require('wikipedia');
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProcessDataService implements AbstractProcessDataService{
+    public colorPacketDefault = {
+        "done":false,
+        "color":[]
+    }
+    public newsPacketDefault = {
+        "done": false,
+        "headline": "",
+        "url": "",
+        "description": ""
+    }
     public trackData: BehaviorSubject<any>;
     public dataPacket: any;
-    public newsPacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
-    public colorPacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    public newsPacket: BehaviorSubject<any> = new BehaviorSubject<any>(this.newsPacketDefault);
+    public colorPacket = new BehaviorSubject<any>(this.colorPacketDefault);
     public artistImagePacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
     public rymReviewPacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    public wikiImagePacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
     constructor(router: Router, public mathutil: MathUtil, public http: HttpClient, 
-        public spotify: AbstractSpotifyApiService, public prettify: AbstractPrettifyService) { 
-        console.log('here i am!');
+        public spotify: AbstractSpotifyApiService) { 
     }
 
     public resetDataPacket() {
@@ -83,18 +90,25 @@ export class ProcessDataService implements AbstractProcessDataService{
     private funnelColor(){
         const colorThief = new ColorThief();
         const img = document.querySelector('img');
-        //img.removeEventListener('load');
         img.crossOrigin = "Anonymous";
+        var nightMode = false;
         
         var palette = colorThief.getPalette(img, 3);
 
         palette = this.filterBadColors(palette);
         var color = palette[0];
 
-        this.colorPacket.next({
-            "done": true,
-            "color": color
-        });
+        if(color){
+            if(color[0] + color[1] + color[2] < 70) {
+                nightMode = true;
+            }
+
+            this.colorPacket.next({
+                "done": true,
+                "color": color,
+                "night_mode": nightMode
+            });
+        }
     }
 
     private filterBadColors(colorList){
@@ -106,7 +120,7 @@ export class ProcessDataService implements AbstractProcessDataService{
         });
         // if everything was filtered out
         // we just use everything
-        if(filteredPalette == []){
+        if(filteredPalette.length == 0){
             filteredPalette = colorList;
         }
         return filteredPalette;
@@ -124,40 +138,35 @@ export class ProcessDataService implements AbstractProcessDataService{
     // key = d562644003a243089251df7c1068f5b7
     public newsAPI(artist){
     
+        var twoWeeksAgo = new Date();
+        var today = new Date();
+        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+        var stringBuilder = "https://newsapi.org/v2/everything?domains=pitchfork.com,noisey.vice.com,rollingstone.com,billboard.com,cmt.com/news,loudwire.com&q=";
+        stringBuilder += artist.replace(' ', '+');
+        stringBuilder += "&from=" + twoWeeksAgo.toISOString().slice(0, 10);
+        stringBuilder += "&to" + today.toISOString().slice(0,10);
+        stringBuilder += "&sortBy=relevance&apiKey=d562644003a243089251df7c1068f5b7";
 
-    var twoWeeksAgo = new Date();
-    var today = new Date();
-    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-    var stringBuilder = "https://newsapi.org/v2/everything?domains=pitchfork.com,noisey.vice.com,rollingstone.com,billboard.com,cmt.com/news,loudwire.com&q=";
-    stringBuilder += artist.replace(' ', '+');
-    stringBuilder += "&from=" + twoWeeksAgo.toISOString().slice(0, 10);
-    stringBuilder += "&to" + today.toISOString().slice(0,10);
-    stringBuilder += "&sortBy=relevance&apiKey=d562644003a243089251df7c1068f5b7";
 
+        this.http.get<any>(stringBuilder).subscribe((result) => {
+            if(result["totalResults"] > 0){
 
-    this.http.get<any>(stringBuilder).subscribe((result) => {
-        if(result["totalResults"] > 0){
-            console.log(result);
-
-            var foundArticle = false;
-            var index = 0;
-            while(!foundArticle && index < result["articles"].length){
-                if(result["articles"][index]["title"].includes(artist) || result["articles"][index]["description"].includes(artist)){
-                    const article = result["articles"][index];
-                    this.newsPacket.next({
-                        "done": true,
-                        "headline": article["title"],
-                        "url": article["urlToImage"],
-                        "description": article["description"]
-                    });
-                    foundArticle = true;
-                } else {
-                    index++;
+                var foundArticle = false;
+                var index = 0;
+                while(!foundArticle && index < result["articles"].length){
+                    if(result["articles"][index]["title"].includes(artist) || result["articles"][index]["description"].includes(artist)){
+                        const article = result["articles"][index];
+                        this.newsPacket.next({
+                            "done": true,
+                            "headline": article["title"],
+                            "url": article["urlToImage"],
+                            "description": article["description"]
+                        });
+                        foundArticle = true;
+                    } else {
+                        index++;
+                    }
                 }
-            }
-
-            
-            
         }
 
     });
@@ -213,65 +222,54 @@ export class ProcessDataService implements AbstractProcessDataService{
     //     }
     // };
 
-    public getWikipediaImage(){
-        
-        var url = "https://en.wikipedia.org/w/api.php"; 
+    public getWikipediaImage(artistList)
+    {
+        var artist = artistList[Math.floor(Math.random() * artistList.length)];
+        (async () => {
+            try {
+                const page = await wiki.page(artist);
+                //wiki.
+                console.log(page);
+                //Response of type @Page object
+                var images = await page.media();
+                images = images.items;
+                console.log(images);
+                var counter = 5;
+                do {
+                    var diceroll = Math.floor(Math.random() * images.length);
+                    // theres x1, x2 and x3 for 0,1,2 respectively
+                    var image = images[diceroll];
+                    var src = image.srcset[image.srcset.length - 1].src;
+                    var caption = image.caption.text;
+                    counter = counter - 1;
+                } while (this.isInBlacklist(src) && counter > 0)
+                this.wikiImagePacket.next({
+                    "src" : src,
+                    "caption" : caption
+                });
+                //Response of type @wikiSummary - contains the intro and the main image
+            } catch (error) {
+                console.log(error);
+                //=> Typeof wikiError
+            }
+        })();
+    }
 
-        var params = {
-            action: "query",
-            prop: "images",
-            titles: "Albert Einstein",
-            format: "json"
-        };
-
-        url = url + "?origin=*";
-        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-
-        fetch(url)
-            .then(function(response){return response.json();})
-            .then(function(response) {
-                var pages = response.query.pages;
-                for (var page in pages) {
-                    return pages[page].images[0].title;
-                }
-                
-            })
-            .then(function(title) {
-                var url = "https://en.wikipedia.org/w/api.php"; 
-
-                var params = {
-                    action: "query",
-                    format: "json",
-                    prop: "imageinfo",
-                    iiprop: "url",
-                    titles: title
-                };
-
-                url = url + "?origin=*";
-                Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-
-                fetch(url)
-                    .then(function(response){return response.json();})
-                    .then(function(response) {
-                        var pages = response.query.pages;
-                        var listOfImages = [];
-                        for (var p in pages) {
-                            console.log(pages[p].title + " is uploaded by User:" + pages[p].imageinfo[0].user);
-                            listOfImages.push(pages[p].title);
-                        }
-                        var url = "https://en.wikipedia.org/w/api.php"; 
-                        url = url + `action=query&titles=Image:${listOfImages[0]}.jpg&prop=imageinfo&iiprop=url`;
-                        fetch(url)
-                            .then(function(response){return response.json();})
-                            .then(function(response){
-                                console.log('heres the response');
-                                console.log(response);
-                            });
-                        
-                    })
-                    .catch(function(error){console.log(error);});
-                    })
-                    .catch(function(error){console.log(error);});
+    private isInBlacklist(imageUrl: string) : boolean {
+        var result = false;
+        var blackList = wikiBlacklist.url;
+        blackList.forEach(item => {
+            if(item == imageUrl){
+                result = true;
+            }
+        });
+        var fileTypes = wikiBlacklist.fileType;
+        fileTypes.forEach(item => {
+            if(imageUrl.includes(item)){
+                result = true;
+            }
+        });
+        return result;
     }
     
     

@@ -36,9 +36,8 @@ export class AuthService implements AbstractAuthService{
       localStorage.setItem('access_token_expiry', new Date(Date.now() + 36000).toString())
       localStorage.setItem('access_token', this.getParameterByName('access_token'));
     }
-    
 
-    this.router.navigate(['']);
+    this.router.navigate(['home']);
   }
 
 

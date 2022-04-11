@@ -14,7 +14,7 @@ export class StreamAudioComponent {
 
   constructor(){
       const token = localStorage.getItem('access_token');
-      //Spotify: any;
+      let Spotify: any;
       
 
       window.onSpotifyWebPlaybackSDKReady = () => {

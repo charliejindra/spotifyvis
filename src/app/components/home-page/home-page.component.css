@@ -1,67 +1,61 @@
-h1 {
+h1.day {
     font-family: Sitka Banner, Arial, Helvetica, sans-serif;
-    font-size: 80px;
+    font-size: 7vh;
     font-weight: bold;
     font-style: italic;
     color:black;
 }
 
-h2 {
+h2.day {
     font-family: Sitka Banner , Arial, Helvetica, sans-serif;
     color:black;
     /* overflow-wrap: break-word;  */
-    font-size: 60px;
+    font-size: 6vh;
 }
 
-.song_title {
-  animation-duration: 7s;
-  animation-name: songscroll;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-timing-function: linear;
+h1.night {
+  font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+  font-size: 7vh;
+  font-weight: bold;
+  font-style: italic;
+  color:white;
+}
+
+h2.night {
+  font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+  color:white;
+  /* overflow-wrap: break-word;  */
+  font-size: 6vh;
+}
+
+#song_text {
   white-space: nowrap;
 }
 
 .center-cropped {
     width: 50vw;
-    height: 53vh;
-    object-fit: none; /* Do not scale the image */
-    object-position:initial ;
-    box-shadow: 5px 5px black;
+    height: 60vh;
+    
+    position: relative;
+    /* padding-bottom: 56.25%; */
+}
+.image-fit {
+  width: 100%;
+  height: 100%; 
+  object-fit: contain;
+  /* object-position: initial ; */
+  /* top: 0; left: 0; */
+  /* left: 50%;
+  top: 50%; */
+  /* transform: translate(-50%, -50%); */
+}
+
+img.box-shadow {
+  box-shadow: 5px 5px black;
 }
 
 .artistImgBox {
     padding-top: 3vh;
-}
-/* 
-@media screen and (max-width: 1500px){
-    h1 {
-        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        color:black;
-        font-size: 50px;
-    }
-    h2 {
-        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
-        color:black;
-        overflow-wrap: break-word; 
-        font-size: 35px;
-    }
-} */
-
-@media screen and (max-width: 1500px){
-    h1 {
-        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        color:black;
-        font-size: 7.6vh;
-    }
-    h2 {
-        font-family: Sitka Banner, Arial, Helvetica, sans-serif;
-        color:black;
-        /* overflow-wrap: break-word;  */
-        font-size: 5.6vh;
-    }
 }
 
 @keyframes songscroll {
@@ -79,10 +73,6 @@ h3 {
     font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
     color:black;
     overflow-wrap: break-word; 
-}
-
-img.album_art {
-    box-shadow: 5px 5px black;
 }
 
 div.frame {
@@ -109,10 +99,6 @@ div.frame {
 }
 
 
-
-
-
-
   .marquee {
     width: 40vw;
     /* margin: 0 auto; */
@@ -128,7 +114,7 @@ div.frame {
     /* padding-right: %; */
     /* show the marquee just outside the paragraph */
     will-change: transform;
-    animation: marquee 3s linear infinite alternate;
+    animation: marquee 5s linear infinite alternate;
   }
   
   .marquee span:hover {

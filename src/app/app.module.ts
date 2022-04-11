@@ -16,6 +16,10 @@ import { AbstractPrettifyService } from './services/prettify-service/abstract-pr
 import { PrettifyService } from './services/prettify-service/prettify.service';
 import { AbstractSpotifyApiService } from './services/spotify-api-service/abstract-spotify-api.service';
 import { SpotifyApiService } from './services/spotify-api-service/spotify-api.service';
+import { NewsCardComponent } from './components/info-card/news/news-card.component';
+import { AbstractThrottleService } from './services/throttle-service/abstract-throttle.service';
+import { ThrottleService } from './services/throttle-service/throttle.service';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -24,7 +28,9 @@ export function initializeApp(appconfig: AppConfig){
     AppComponent,
     HomePageComponent,
     AuthComponent,
-    StreamAudioComponent
+    StreamAudioComponent,
+    NewsCardComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +41,10 @@ export function initializeApp(appconfig: AppConfig){
     AppConfig,
     { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfig], multi: true},
     {provide: AbstractProcessDataService, useClass: ProcessDataService},
-    { provide: AbstractAuthService, useClass: AuthService },
     { provide: AbstractPrettifyService, useClass: PrettifyService},
-    {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService}
+    { provide: AbstractAuthService, useClass: AuthService },
+    {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService},
+    {provide: AbstractThrottleService, useClass: ThrottleService}
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,7 @@
+<div>
+    <h2 id="news_headline" [class]="nightMode ? 'night' : 'day'">{{ newsHeadline }}</h2>
+    <div class="artistImgBox center-cropped">
+        <img class="news_img image-fit box-shadow" style="display:inline" [src]="newsImgUrl"/>
+    </div>
+    <h3 class="news_fold" style="display:inline-block;" [class]="nightMode ? night : day">{{ newsDesc }}</h3>
+</div>

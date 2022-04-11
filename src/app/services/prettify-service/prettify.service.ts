@@ -1,13 +1,16 @@
+import { AbstractProcessDataService } from '../process-data-service/abstract-process-data.service';
+import { AbstractThrottleService } from '../throttle-service/abstract-throttle.service';
 import { AbstractPrettifyService } from './abstract-prettify.service';
+import { Injectable } from '@angular/core';
 
+var sheet: any;
 @Injectable({
   providedIn: 'root',
 })
 
-var sheet: any;
 export class PrettifyService implements AbstractPrettifyService{
 
-  constructor() { 
+  constructor(public process: AbstractProcessDataService) {
     var element = document.createElement('style');
     // Append style element to head
     document.head.appendChild(element), sheet;
@@ -18,65 +21,63 @@ export class PrettifyService implements AbstractPrettifyService{
   }
 
   titleMutationObserver(){
-    //var spanEl = document.querySelector("span.song_title");
     var observer = new MutationObserver((changes) => {
       changes.forEach(change => {
-        //console.log(change);
-        if((change.target.parentNode as any).id == "song_text"){
-          console.log(change);
-          console.log(change.target.nodeValue);
-          //console.log(change.target.parentElement.offsetWidth);
+        if((change.target.parentNode as any).id == "song_text" || (change.target.parentNode as any).id == "artist_text"){
           var sWidth = change.target.parentElement.offsetWidth;
           var hWidth = change.target.parentElement.parentElement.offsetWidth;
-          removeAndAppendMarquee(sWidth, hWidth);
+          var titleElement: any;
+          if((change.target.parentNode as any).id == "song_text"){
+            titleElement = document.getElementById('song_title');
+          }
+          else {
+            titleElement = document.getElementById('artist_title');
+          }
+          
+          if(sWidth > hWidth){
+            removeAndAppendMarquee(sWidth, hWidth);
+            titleElement.classList.add('marquee');
+          }
+          else {
+            titleElement.classList.remove('marquee');
+          }
+          
         }
-          // if(change.attributeName.includes('src')){
-          //   console.log('src changed to ' + coverUrl);
-          //   this.prepareTrackTitle();
-          //   observer.disconnect();
-          // }
       });
     });
     observer.observe(document, {childList: true, subtree: true, characterData: true});
   }
 
-
-  prepareTrackTitle(trackName: string){
-    const screenSize = this.screenSize();
-    var titleElement = document.getElementById('song_title');
-    if (screenSize > 2){
-        if (trackName.length > 25){
-          titleElement.classList.add('marquee');
-          //removeAndAppendMarquee(trackName);
-        } else {
-          titleElement.classList.remove('marquee');
+  // come back to this later
+  // its working sometimes? but honestly its such an edge case rn
+  // that i want to get other stuff working first
+  newsCardMutationObserver(){
+    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerWidth || 0);
+    var cardElement = document.querySelector('#card');
+    var observer = new MutationObserver((changes) => {
+      changes.forEach(change => {
+        if(change.target.nodeName.toString() == "#text"){
+          var targetElement = change.target.parentElement;
+          if(targetElement.id == 'news_headline'){
+            var tHeight = targetElement.offsetHeight;
+            // if the height of the headline is taller than 2 lines
+            if(.10 * vh < tHeight) {
+              console.log('this headlines too gosh dang long!');
+              var currentNewsPacket = this.process.newsPacket.getValue();
+              var newHeadline = currentNewsPacket.headline.substring(0,40);
+              this.process.newsPacket.next({
+                "done": true,
+                "headline": newHeadline,
+                "url": this.process.newsPacket.getValue().url,
+                "description": this.process.newsPacket.getValue().description
+              })
+            }
+          }
+          
         }
-    } else {
-        if (trackName.length > 25){
-          titleElement.classList.add('marquee');
-          //removeAndAppendMarquee(trackName);
-        } else {
-          titleElement.classList.remove('marquee');
-        }
-        
-        
-    }
-    return trackName;
-  }
-
-
-  // filter down screen size into manageable sections
-  private screenSize(){
-    const width  = window.innerWidth || document.documentElement.clientWidth || 
-    document.body.clientWidth;
-    const height = window.innerHeight|| document.documentElement.clientHeight|| 
-    document.body.clientHeight;
-    var result = 0;
-    if (width > 1000){
-        return 3;
-    } else {
-        return 2;
-    }
+      });
+    });
+    observer.observe(cardElement, {childList: true, subtree: true, characterData: true});
   }
 
   public hyphenify(stringBuilder){
@@ -87,6 +88,22 @@ export class PrettifyService implements AbstractPrettifyService{
 
     return result;
 
+  }
+
+  public commaify(object) {
+    var result = '';
+    result = object[0];
+    if(object.length != 1) {
+      object.shift();
+      object.forEach(element => {
+        result = `${result}, ${element}`;
+      });
+      return result;
+    }
+    else 
+    {
+      return result;
+    }
   }
 
 }
@@ -101,11 +118,7 @@ function removeAndAppendMarquee(sWidth, hWidth) {
   if(sheet.cssRules.length != 0){
     sheet.deleteRule(0);
   }
-  console.log("sheet v");
-  console.log(sheet);
   var offset = sWidth - hWidth;
-  console.log('offset');
-  console.log(offset);
   var styles = '@keyframes marquee {';
   styles += '0% { transform: translate(0%, 0); }';
   styles += '20% { transform: translate(0%, 0); }';
@@ -118,11 +131,3 @@ function removeAndAppendMarquee(sWidth, hWidth) {
 
 }
 
-// set the position we scroll to
-// // to be based on the length of the string we have
-// function removeAndAppendMarquee(ruleset, trackName){
-//   console.log(document.styleSheets);
-//   ruleset.deleteRule('100%');
-//   console.log(ruleset);
-//   ruleset.appendRule(`100% { transform: translate(-${trackName.length}%, 0); }`);
-// }

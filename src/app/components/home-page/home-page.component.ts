@@ -1,13 +1,10 @@
-//import { stringify } from '@angular/compiler/src/util';
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { VirtualTimeScheduler } from 'rxjs';
-import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractAuthService } from 'src/app/services/auth-service/abstract-auth-service';
-import { AbstractPrettifyService } from 'src/app/services/prettify-service/abstract-prettify.service';
-import { AbstractProcessDataService } from 'src/app/services/process-data-service/abstract-process-data.service';
-import { ProcessDataService } from 'src/app/services/process-data-service/process-data.service';
+import { AbstractPrettifyService } from '../../services/prettify-service/abstract-prettify.service';
+import { AbstractProcessDataService } from '../../services/process-data-service/abstract-process-data.service';
 import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
+import { AbstractThrottleService } from 'src/app/services/throttle-service/abstract-throttle.service';
 
 @Component({
   selector: 'app-home-page',
@@ -27,20 +24,30 @@ export class HomePageComponent {
   public newsImgUrl: any;
   public newsDesc: any;
   public artistImg: any;
+  public wikiImg: any;
+  public wikiCaption: string;
   public story = false;
+  public secondaryDisplayActiveOptions = [];
+  public secondaryDisplayOptions = [
+    "Spotify Image",
+    "Wiki Image",
+    "News"
+  ];
+  public secondaryDisplay = "Spotify Image";
+  public artistList = [];
+
+  public nightMode: boolean;
 
   constructor(private router:Router,
-    public authService: AbstractAuthService, spotifyService: SpotifyApiService, 
+    public authService: AbstractAuthService, spotifyService: SpotifyApiService, public throttle: AbstractThrottleService, 
     public processDataService: AbstractProcessDataService, private prettify: AbstractPrettifyService){
-      this.story = false;
     this.prevData = {"item": {
       "uri": ""
     }};
+    this.setUpSubscribers();
     spotifyService.trackData.subscribe((data) => {
       this.displayChange(data);
-      
     });
-
   }
 
   private async displayChange(data){
@@ -53,10 +60,16 @@ export class HomePageComponent {
         this.complete = "0vw";
         this.duration = "50vw";
       } else {
-        let ColorPromise;
+
+        this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
 
         // most operations should not be redone if the song is the same
         if((this.prevData.item.uri != data.item.uri) || !this.prevData.item){
+
+          this.secondaryDisplay = "Spotify Image";
+          this.secondaryDisplayActiveOptions.length = 0;
+
+          this.story = false;
 
           this.prevData = data;
           // try {
@@ -67,44 +80,26 @@ export class HomePageComponent {
     
           // await ColorPromise;
           
-          this.artist = data["item"]["artists"][0]["name"];
+          this.artistList = this.getArtistList(data["item"]["artists"]);
+          this.artist = this.prettify.commaify(this.artistList);
+
           this.albumImg = data["item"]["album"]["images"][0]["url"];
 
 
           var artistId = data["item"]["artists"][0]["id"];
           this.processDataService.getArtistImage(artistId);
 
-          this.playing = this.prettify.prepareTrackTitle(data["item"]["name"]);
+          this.playing = data["item"]["name"];
           
-          this.processDataService.getWikipediaImage();
+          this.processDataService.getWikipediaImage(this.artistList);
 
           this.processDataService.resetDataPacket();
           this.processDataService.newsAPI(this.artist);
 
           var album_title = data["item"]["album"];
           
-          this.processDataService.newsPacket.subscribe((packet) => {
-            this.newsHeadline = packet["headline"];
-            this.newsDesc = packet["description"];
-            this.newsImgUrl = packet["url"];
-          });
-          
-          this.processDataService.colorPacket.subscribe((packet)=> {
-            const color = packet.color;
-            this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-          });
-
-          this.processDataService.artistImagePacket.subscribe((packet)=> {
-            this.artistImg = packet.src;
-          });
-          
-          this.processDataService.rymReviewPacket.subscribe((packet)=>{
-            
-          });
 
         }
-        this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
-
         const msPassed = data["progress_ms"];
         const msTotal = data["item"]["duration_ms"];
         const pct = (msPassed/msTotal) * 100;
@@ -115,9 +110,6 @@ export class HomePageComponent {
         
       }
       
-
-      
-
       
     } else {
       this.playing = "Play a song to get started!"
@@ -128,6 +120,56 @@ export class HomePageComponent {
     }
   }
 
-  
+  setUpSubscribers(){
+
+    this.processDataService.newsPacket.subscribe((packet) => {
+      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[2]);
+      this.story = true;
+      this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
+    });
+    
+    this.processDataService.colorPacket.subscribe((packet)=> {
+      if(packet["done"]){
+        const color = packet.color;
+        this.nightMode = packet["night_mode"] == true;
+        this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+      }
+    });
+
+    this.processDataService.artistImagePacket.subscribe((packet)=> {
+      this.artistImg = packet.src;
+      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[0]);
+      this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
+    });
+    
+    this.processDataService.rymReviewPacket.subscribe((packet)=>{
+      
+    });
+
+    this.processDataService.wikiImagePacket.subscribe((packet)=> {
+      this.wikiImg = packet.src;
+      this.wikiCaption = packet.caption;
+      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[1]);
+      this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
+    });
+  }
+
+  ngOnDestroy(){
+    this.processDataService.colorPacket.unsubscribe();
+    this.processDataService.artistImagePacket.unsubscribe();
+    this.processDataService.rymReviewPacket.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.prettify.newsCardMutationObserver();
+  }
+
+  public getArtistList(raw: any) : any {
+    var list = [];
+    raw.forEach(element => {
+      list.push(element["name"]);
+    });
+    return list;
+  }
   
 }

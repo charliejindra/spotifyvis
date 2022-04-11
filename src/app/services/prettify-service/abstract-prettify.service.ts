@@ -1,4 +1,5 @@
 export abstract class AbstractPrettifyService {
-    abstract prepareTrackTitle(string);
     public abstract hyphenify(string);
+    public abstract newsCardMutationObserver();
+    public abstract commaify(object);
 }

@@ -7,9 +7,10 @@ export abstract class AbstractProcessDataService {
     public abstract colorPacket: BehaviorSubject<any>;
     public abstract artistImagePacket: BehaviorSubject<any>;
     public abstract rymReviewPacket: BehaviorSubject<any>;
+    public abstract wikiImagePacket: BehaviorSubject<any>;
     public abstract newsAPI(any);
     public abstract getColor(string);
     public abstract getArtistImage(string);
-    abstract getWikipediaImage()
+    abstract getWikipediaImage(string)
     //public abstract getRymReview(artist, album);
 }

@@ -2,32 +2,42 @@
 <div id="background" class="bg" [style.background-color]="bgcolor">
 </div>
 <div class="frame noblur" style="display:inline-block;">
-    <img class="album_art" [src]="albumImg" style="height:90vh;
+    <img class="album_art box-shadow" [src]="albumImg" style="height:90vh;
 "/>
 </div>
 <div class="frame noblur" style="display:inline-block; width: 40vw">
-    <h1 id="song_title">
-        <span id="song_text">{{ playing }}</span>
-    </h1>
-    <h2>{{ artist }}</h2>
-    <div [style.width]="complete" style="height:3px; background: black; display:inline-block;"></div>
-    <div [style.width]="duration" style="height:3px; background: lightgrey; display:inline-block;"></div>
-    <br/>
-    <app-stream-audio></app-stream-audio>
-    <br/>
+    <div *ngIf="nightMode; else dayMode">
+        <h1 id="song_title" class="night">
+            <span id="song_text">{{ playing }}</span>
+        </h1>
+        <h2 id="artist_title" class="night">
+            <span id="artist_text">{{ artist }}</span>
+        </h2>
+    </div>
+    <ng-template #dayMode>
+        <h1 id="song_title" class="day">
+            <span id="song_text">{{ playing }}</span>
+        </h1>
+        <h2 id="artist_title" class="day">
+            <span id="artist_text">{{ artist }}</span>
+        </h2>
+    </ng-template>
     
-    <div *ngIf="story; else artistPic">
-        <div>
-            <h2 >{{ newsHeadline }}</h2>
-            <img class="news_img" style="display:inline" [src]="newsImgUrl"/>
-            <h3 style="display:inline-block;">{{ newsDesc }}</h3>
+    
+    <app-stream-audio></app-stream-audio>
+    <div id="card">
+        <div [hidden]="secondaryDisplay != 'News'">
+            <news-card [night]="nightMode"></news-card>
+        </div>
+        <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
+            <img *ngIf="artistImg" [src]="artistImg" class="image-fit box-shadow"/>
+        </div>
+        <div [hidden]="secondaryDisplay != 'Wiki Image'" class="artistImgBox center-cropped">
+            <img [src]="wikiImg" class="image-fit box-shadow"/>
+            <h3>{{wikiCaption}}</h3>
         </div>
     </div>
-    <ng-template #artistPic>
-        <div class="artistImgBox">
-            <img *ngIf="artistImg" [src]="artistImg" class="center-cropped"/>
-        </div>
-    </ng-template>
+    
     
     
 </div>
