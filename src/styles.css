@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+h2 {
+    font-family: Sitka Banner , Arial, Helvetica, sans-serif;
+    color:black;
+    /* overflow-wrap: break-word;  */
+    font-size: 6vh;
+}
+
+.parent {
+    max-width: 500px;
+    margin: auto;
+        
+}
+
+button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

@@ -72,13 +72,6 @@ export class HomePageComponent {
           this.story = false;
 
           this.prevData = data;
-          // try {
-          //   ColorPromise = this.processDataService.getColor();
-          // } catch {
-          //   console.log('color promise failed');
-          // }
-    
-          // await ColorPromise;
           
           this.artistList = this.getArtistList(data["item"]["artists"]);
           this.artist = this.prettify.commaify(this.artistList);

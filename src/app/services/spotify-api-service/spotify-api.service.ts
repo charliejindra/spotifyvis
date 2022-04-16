@@ -30,6 +30,9 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
         }
         this.spotifyApi.getMyCurrentPlayingTrack().then(
             result => {
+                if(parseInt(localStorage.getItem('access_token_expiry')) < Date.now()){
+                    this.authService.requestRefreshToken();
+                }
                 this.trackData.next(result);
                 sleep(500).then(() => {
                     this.checkForNewSong();
@@ -40,20 +43,4 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
             console.log(err);
         });
     }
-
-    // public artistImageCall(artistId) {
-    //     // const sleep = (milliseconds) => {
-    //     //     return new Promise(resolve => setTimeout(resolve, milliseconds))
-    //     // }
-
-    //     this.spotifyApi.getArtist(artistId).then(
-    //         function (data) {
-    //             return of(data);
-    //         },
-    //         // function (err) {
-    //         //     console.error(err);
-    //         // }
-    //     );
-        
-    // }
 }

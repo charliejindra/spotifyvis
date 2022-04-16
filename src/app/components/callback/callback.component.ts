@@ -4,18 +4,15 @@ import { AuthService } from '../../services/auth-service/auth-service';
 
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  selector: 'app-callback',
+  templateUrl: './callback.component.html',
+  styleUrls: ['./callback.component.css']
 })
-export class AuthComponent {
+export class CallbackComponent {
 
   constructor(public authService: AbstractAuthService){
 
-    this.authService.redirectToSpotify();
-    //this.authService.init();
-
+    this.authService.callback();
   }
   
 }
-

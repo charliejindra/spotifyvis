@@ -22,7 +22,8 @@ export class LandingPageComponent implements OnInit {
   }
 
   authenticate() {
-    window.location.href = 'http://localhost:8888/login';
+    this.router.navigate(['auth']);
+    //window.location.href = 'http://localhost:8888/login';
   }
 
 }

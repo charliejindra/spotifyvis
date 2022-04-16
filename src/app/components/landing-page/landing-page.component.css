@@ -1,13 +1,6 @@
 
 
 button {
-    /* background-color: cornflowerblue;
-    border-radius: 3px;
-    height: 100px;
-    width: 300px;
-    border-width: 1px;
-    appearance: outline; */
-
     background-color: #23b83c;
 	border: 2px solid black;
 	color: whitesmoke;
@@ -16,11 +9,34 @@ button {
 	text-decoration: none;
 	font-size: 1em;
 	display: inline-block;
-	width: 22%;
 	border-radius: 5px;
 	/* box-shadow: 3px 3px 8px 0 #000; h-offset v-offset blur spread color */
+	margin: 10px;
 }
 
-.parent > * {
+/* .parent > * {
     position: relative;
+} */
+
+.bg {
+	background-image: linear-gradient(#45ff54, whitesmoke, white);
+	height: 500px;
+}
+
+h1 {
+    font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+    font-size: 7vh;
+    font-weight: bold;
+    font-style: italic;
+    color:black;
+    text-align: center;
+}
+
+h3 {
+    font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+    font-size: 4vh;
+    font-weight: bold;
+    font-style: italic;
+    color:black;
+    text-align: center;
 }

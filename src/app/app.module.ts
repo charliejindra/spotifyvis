@@ -20,6 +20,7 @@ import { NewsCardComponent } from './components/info-card/news/news-card.compone
 import { AbstractThrottleService } from './services/throttle-service/abstract-throttle.service';
 import { ThrottleService } from './services/throttle-service/throttle.service';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { CallbackComponent } from './components/callback/callback.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -30,7 +31,8 @@ export function initializeApp(appconfig: AppConfig){
     AuthComponent,
     StreamAudioComponent,
     NewsCardComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
