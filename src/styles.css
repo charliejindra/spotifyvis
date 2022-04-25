@@ -42,3 +42,7 @@ header,
     -o-background-size: cover;
     background-size: cover;
 }
+
+img#night {
+    filter: brightness(40%);
+}

@@ -139,8 +139,6 @@ export class HomePageComponent {
     });
 
     this.processDataService.wikiImagePacket.subscribe((packet)=> {
-      this.wikiImg = packet.src;
-      this.wikiCaption = packet.caption;
       // log will give many chances to even a few number of pictures
       // and then reward tickets in diminishing returns the more pictures we have
       this.pushTickets(this.secondaryDisplayOptions[1], Math.floor(this.getBaseLog(1.35, packet.imageQty)));

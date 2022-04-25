@@ -23,6 +23,7 @@ import { AbstractThrottleService } from './services/throttle-service/abstract-th
 import { ThrottleService } from './services/throttle-service/throttle.service';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { CallbackComponent } from './components/callback/callback.component';
+import { WikiCardComponent } from './components/info-card/wiki/wiki-card.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -33,6 +34,7 @@ export function initializeApp(appconfig: AppConfig){
     AuthComponent,
     StreamAudioComponent,
     NewsCardComponent,
+    WikiCardComponent,
     LandingPageComponent,
     CallbackComponent
   ],

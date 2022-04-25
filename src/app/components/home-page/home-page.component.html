@@ -30,11 +30,10 @@
             <news-card [night]="nightMode"></news-card>
         </div>
         <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
-            <img *ngIf="artistImg" [src]="artistImg" class="image-fit box-shadow"/>
+            <img *ngIf="artistImg" [src]="artistImg" class="image-fit box-shadow" [id]="nightMode ? 'night' : 'day'"/>
         </div>
         <div [hidden]="secondaryDisplay != 'Wiki Image'" class="artistImgBox center-cropped">
-            <img [src]="wikiImg" class="image-fit box-shadow"/>
-            <h3>{{wikiCaption}}</h3>
+            <wiki-card [night]="nightMode"></wiki-card>
         </div>
     </div>
     
