@@ -39,15 +39,6 @@ export class ProcessDataService implements AbstractProcessDataService{
         public spotify: AbstractSpotifyApiService) { 
     }
 
-    public resetDataPacket() {
-        this.dataPacket = {
-            "color_thief" : {
-                "done": false,
-                "color": []
-            }
-        };
-    }
-
     public getColor(coverUrl){
         // var img = document.querySelector("img.album_art");
         // var observer = new MutationObserver((changes) => {
@@ -99,7 +90,7 @@ export class ProcessDataService implements AbstractProcessDataService{
         var color = palette[0];
 
         if(color){
-            if(color[0] + color[1] + color[2] < 70) {
+            if(color[0] + color[1] + color[2] < 90) {
                 nightMode = true;
             }
 
@@ -149,10 +140,32 @@ export class ProcessDataService implements AbstractProcessDataService{
 
 
         this.http.get<any>(stringBuilder).subscribe((result) => {
+            
             if(result["totalResults"] > 0){
 
                 var foundArticle = false;
                 var index = 0;
+                // var eligibleArticles = [];
+                // result["articles"].forEach(article => {
+                //     if(article["title"].includes(artist) || article["description"].includes(artist)){
+                //         eligibleArticles.push(article);
+                //     }
+                // });
+                // if(eligibleArticles.length > 0){
+                //     const article = eligibleArticles[0];
+                //     this.newsPacket.next({
+                //         "done": true,
+                //         "headline": article["title"],
+                //         "url": article["urlToImage"],
+                //         "description": article["description"]
+                //     });
+                //     foundArticle = true;
+                // } else {
+                //     // do nothing lol
+                // }
+
+
+
                 while(!foundArticle && index < result["articles"].length){
                     if(result["articles"][index]["title"].includes(artist) || result["articles"][index]["description"].includes(artist)){
                         const article = result["articles"][index];
@@ -167,18 +180,13 @@ export class ProcessDataService implements AbstractProcessDataService{
                         index++;
                     }
                 }
-        }
+            }
 
-    });
-
-
-        // http.open("GET", "");
-        // http.send();
-
-        // http.onloadend = (result) => {
-        //     
-            
-        // }
+        }, err => {
+            if(err.status == '429'){
+                console.log('rate limit for news api reached.');
+            }
+        });
     }
 
     
@@ -236,16 +244,27 @@ export class ProcessDataService implements AbstractProcessDataService{
                 console.log(images);
                 var counter = 5;
                 do {
+                    // more artists means more pics. weigh it heavier
+                    var imageQty = images.length + ((artistList.length - 1) * 2);
                     var diceroll = Math.floor(Math.random() * images.length);
                     // theres x1, x2 and x3 for 0,1,2 respectively
                     var image = images[diceroll];
                     var src = image.srcset[image.srcset.length - 1].src;
-                    var caption = image.caption.text;
+                    var caption = '';
+                    // if we have multiple artists and the pic is
+                    // without a caption, we want to denote who it is
+                    if(artistList.length > 1){
+                        caption = artist;
+                    }
+                    if(image.caption){
+                        caption = image.caption.text;
+                    }
                     counter = counter - 1;
                 } while (this.isInBlacklist(src) && counter > 0)
                 this.wikiImagePacket.next({
                     "src" : src,
-                    "caption" : caption
+                    "caption" : caption,
+                    "imageQty" : imageQty
                 });
                 //Response of type @wikiSummary - contains the intro and the main image
             } catch (error) {

@@ -32,6 +32,10 @@ h2.night {
   white-space: nowrap;
 }
 
+#artist_text {
+  white-space: nowrap;
+}
+
 .center-cropped {
     width: 50vw;
     height: 60vh;
@@ -99,14 +103,14 @@ div.frame {
 }
 
 
-  .marquee {
+  .marquee, .marquee_artist {
     width: 40vw;
     /* margin: 0 auto; */
     overflow: hidden;
     box-sizing: border-box;
   }
   
-  .marquee span {
+  .marquee span, .marquee_artist span {
     display: inline-block;
     width: max-content;
   
@@ -117,9 +121,6 @@ div.frame {
     animation: marquee 5s linear infinite alternate;
   }
   
-  .marquee span:hover {
-    animation-play-state: paused
-  }
   
   
   /* @keyframes marquee {
@@ -132,7 +133,7 @@ div.frame {
   /* Respect user preferences about animations */
   
   @media (prefers-reduced-motion: reduce) {
-    .marquee span {
+    .marquee span, .marquee_artist span {
       animation-iteration-count: 1;
       animation-duration: 0.01; 
       /* instead of animation: none, so an animationend event is 

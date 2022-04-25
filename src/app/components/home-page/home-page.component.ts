@@ -86,8 +86,7 @@ export class HomePageComponent {
           
           this.processDataService.getWikipediaImage(this.artistList);
 
-          this.processDataService.resetDataPacket();
-          this.processDataService.newsAPI(this.artist);
+          //this.processDataService.newsAPI(this.artist);
 
           var album_title = data["item"]["album"];
           
@@ -116,8 +115,8 @@ export class HomePageComponent {
   setUpSubscribers(){
 
     this.processDataService.newsPacket.subscribe((packet) => {
-      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[2]);
       this.story = true;
+      this.pushTickets(this.secondaryDisplayOptions[2], 2);
       this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
     });
     
@@ -142,7 +141,9 @@ export class HomePageComponent {
     this.processDataService.wikiImagePacket.subscribe((packet)=> {
       this.wikiImg = packet.src;
       this.wikiCaption = packet.caption;
-      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[1]);
+      // log will give many chances to even a few number of pictures
+      // and then reward tickets in diminishing returns the more pictures we have
+      this.pushTickets(this.secondaryDisplayOptions[1], Math.floor(this.getBaseLog(1.35, packet.imageQty)));
       this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
     });
   }
@@ -163,6 +164,15 @@ export class HomePageComponent {
       list.push(element["name"]);
     });
     return list;
+  }
+
+  private pushTickets(option: string, tickets: number){
+    for (let i=0; i < tickets; i++)
+      this.secondaryDisplayActiveOptions.push(option);
+  }
+
+  private getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
   }
   
 }

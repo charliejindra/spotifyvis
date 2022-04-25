@@ -24,22 +24,33 @@ export class PrettifyService implements AbstractPrettifyService{
     var observer = new MutationObserver((changes) => {
       changes.forEach(change => {
         if((change.target.parentNode as any).id == "song_text" || (change.target.parentNode as any).id == "artist_text"){
+          var el = '';
           var sWidth = change.target.parentElement.offsetWidth;
           var hWidth = change.target.parentElement.parentElement.offsetWidth;
           var titleElement: any;
           if((change.target.parentNode as any).id == "song_text"){
             titleElement = document.getElementById('song_title');
+            el = 'marquee';
           }
           else {
             titleElement = document.getElementById('artist_title');
+            el = 'marquee_artist';
           }
           
           if(sWidth > hWidth){
-            removeAndAppendMarquee(sWidth, hWidth);
-            titleElement.classList.add('marquee');
+            removeAndAppendMarquee(sWidth, hWidth, el);
+            if(el =='artist'){
+              titleElement.classList.add(`marquee_artist`);
+            } else {
+              titleElement.classList.add(`marquee`);
+            }
           }
           else {
-            titleElement.classList.remove('marquee');
+            if(el =='artist'){
+              titleElement.classList.remove('marquee_artist');
+            } else {
+              titleElement.classList.remove('marquee');
+            }
           }
           
         }
@@ -92,11 +103,17 @@ export class PrettifyService implements AbstractPrettifyService{
 
   public commaify(object) {
     var result = '';
-    result = object[0];
-    if(object.length != 1) {
-      object.shift();
-      object.forEach(element => {
-        result = `${result}, ${element}`;
+
+    var temp = [];
+    object.forEach(el => {
+      temp.push(el);
+    });
+
+    result = temp[0];
+    if(temp.length != 1) {
+      temp.shift();
+      temp.forEach(element => {
+        result += `, ${element}`;
       });
       return result;
     }
@@ -108,18 +125,24 @@ export class PrettifyService implements AbstractPrettifyService{
 
 }
 
-function removeAndAppendMarquee(sWidth, hWidth) {
+function removeAndAppendMarquee(sWidth, hWidth, el) {
 
   var ss = document.styleSheets;
   let rule = 'marquee';
   var ruleSet: any;
   //grab the whole stylesheets
   var i = 0;
-  if(sheet.cssRules.length != 0){
-    sheet.deleteRule(0);
+  // TODO figure out why it's dumb when its both artist and song scrolling
+  var rules = [].slice.call(sheet.cssRules);
+  var result = rules.findIndex(rule => rule.name === el);
+  if(result > -1){ 
+    console.log(rules.findIndex(rule => rule.name === el));
+    sheet.deleteRule(rules.findIndex(rule => rule.name === el));
   }
   var offset = sWidth - hWidth;
-  var styles = '@keyframes marquee {';
+  var styles = '';
+
+  styles = `@keyframes ${el} {`;
   styles += '0% { transform: translate(0%, 0); }';
   styles += '20% { transform: translate(0%, 0); }';
   styles += `100% { transform: translate(-${offset.toString()}px, 0); }`;
@@ -127,7 +150,7 @@ function removeAndAppendMarquee(sWidth, hWidth) {
   
 
   // Add the first CSS rule to the stylesheet
-  sheet.insertRule(styles, 0);
+  sheet.insertRule(styles);
 
 }
 

@@ -2,7 +2,7 @@ import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { time } from 'console';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ObservableLike } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractAuthService } from './abstract-auth-service';
@@ -12,21 +12,27 @@ import { AbstractAuthService } from './abstract-auth-service';
 })
 export class AuthService implements AbstractAuthService{
   public code: string;
+
+  // in ms
+  // one hour = 3000000
   private time_till_expiry = 3000000;
+  public spotifyAuthToken: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   
 
-  constructor(public router: Router, public http: HttpClient, private actRoute: ActivatedRoute) { 
+  constructor(public router: Router, public http: HttpClient, private actRoute: ActivatedRoute) {
   }
 
   public init(response){
-    //3000000
     var access_expiry_time = new Date(Date.parse(localStorage.getItem('access_token_expiry')));
     var now_time = new Date(Date.now());
 
+    localStorage.clear();
     if(!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'null' || access_expiry_time.getTime() < now_time.getTime()){
       localStorage.setItem('access_token_expiry', (Date.now() + this.time_till_expiry).toString())
       localStorage.setItem('access_token', response.access_token);
       localStorage.setItem('refresh_token', response.refresh_token);
+    } else {
+      this.requestRefreshToken();
     }
 
     this.router.navigate(['home']); 
@@ -51,7 +57,6 @@ export class AuthService implements AbstractAuthService{
   }
 
   public callback() {
-    debugger;
     let queryParams = this.actRoute.queryParams.subscribe(params => {
       this.code = params.code;
       this.finishCallback().subscribe(response => {
@@ -89,12 +94,15 @@ export class AuthService implements AbstractAuthService{
     return this.http.post<any>('https://accounts.spotify.com/api/token', formBodyString, {headers});
   }
 
-  public requestRefreshToken(){
+  public requestRefreshToken() {
     this.refreshCall().subscribe(response => {
       console.log(response);
       console.log('hey! we refreshed the token at ' + new Date(Date.now()).toString() + ':)');
       localStorage.setItem('access_token_expiry', (Date.now() + this.time_till_expiry).toString())
       localStorage.setItem('access_token', response.access_token);
+      this.spotifyAuthToken.next(response.access_token);
+      
+      
     }, err => {
       console.error(err);
     });
