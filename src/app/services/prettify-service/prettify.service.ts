@@ -26,7 +26,9 @@ export class PrettifyService implements AbstractPrettifyService{
         if((change.target.parentNode as any).id == "song_text" || (change.target.parentNode as any).id == "artist_text"){
           var el = '';
           var sWidth = change.target.parentElement.offsetWidth;
+          console.log(`swidth = ${sWidth}`);
           var hWidth = change.target.parentElement.parentElement.offsetWidth;
+          console.log(`hwidth = ${hWidth}`);
           var titleElement: any;
           if((change.target.parentNode as any).id == "song_text"){
             titleElement = document.getElementById('song_title');
@@ -38,12 +40,13 @@ export class PrettifyService implements AbstractPrettifyService{
           }
           
           if(sWidth > hWidth){
-            removeAndAppendMarquee(sWidth, hWidth, el);
+            
             if(el =='artist'){
               titleElement.classList.add(`marquee_artist`);
             } else {
               titleElement.classList.add(`marquee`);
             }
+            removeAndAppendMarquee(sWidth, hWidth, el);
           }
           else {
             if(el =='artist'){
@@ -140,6 +143,7 @@ function removeAndAppendMarquee(sWidth, hWidth, el) {
     sheet.deleteRule(rules.findIndex(rule => rule.name === el));
   }
   var offset = sWidth - hWidth;
+  console.log(`offset=${offset}`);
   var styles = '';
 
   styles = `@keyframes ${el} {`;

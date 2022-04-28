@@ -103,43 +103,42 @@ div.frame {
 }
 
 
-  .marquee, .marquee_artist {
-    width: 40vw;
-    /* margin: 0 auto; */
-    overflow: hidden;
-    box-sizing: border-box;
-  }
+.marquee, .marquee_artist {
+  width: 50vw;
+  /* margin: 0 auto; */
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.marquee span, .marquee_artist span {
+  display: inline-block;
+  /* width: max-content; */
+
+  /* padding-left: 80%; */
+  /* padding-right: %; */
+  /* show the marquee just outside the paragraph */
+  will-change: transform;
+  animation: marquee 5s linear infinite alternate;
+}
   
+  
+/* @keyframes marquee {
+  0% { transform: translate(0%, 0); }
+  20% { transform: translate(0%, 0); } 
+  100% { transform: translate(-25%, 0); }
+} */
+
+
+/* Respect user preferences about animations */
+
+@media (prefers-reduced-motion: reduce) {
   .marquee span, .marquee_artist span {
-    display: inline-block;
-    width: max-content;
-  
-    /* padding-left: 80%; */
-    /* padding-right: %; */
-    /* show the marquee just outside the paragraph */
-    will-change: transform;
-    animation: marquee 5s linear infinite alternate;
+    animation-iteration-count: 1;
+    animation-duration: 0.01; 
+    /* instead of animation: none, so an animationend event is 
+      * still available, if previously attached.
+      */
+    width: auto;
+    padding-left: 0;
   }
-  
-  
-  
-  /* @keyframes marquee {
-    0% { transform: translate(0%, 0); }
-    20% { transform: translate(0%, 0); } 
-    100% { transform: translate(-25%, 0); }
-  } */
-  
-  
-  /* Respect user preferences about animations */
-  
-  @media (prefers-reduced-motion: reduce) {
-    .marquee span, .marquee_artist span {
-      animation-iteration-count: 1;
-      animation-duration: 0.01; 
-      /* instead of animation: none, so an animationend event is 
-       * still available, if previously attached.
-       */
-      width: auto;
-      padding-left: 0;
-    }
-  }
+}
