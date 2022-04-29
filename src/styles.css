@@ -1,4 +1,6 @@
-
+body {
+    overflow: hidden; /* Hide scrollbars */
+}
 
 h2 {
     font-family: Sitka Banner , Arial, Helvetica, sans-serif;

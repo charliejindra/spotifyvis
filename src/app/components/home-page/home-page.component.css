@@ -19,6 +19,7 @@ h2.day {
   color:black;
   /* overflow-wrap: break-word;  */
   font-size: 5vh;
+  font-weight: lighter;
 }
 
 h2.night {
@@ -26,6 +27,7 @@ h2.night {
   color:white;
   /* overflow-wrap: break-word;  */
   font-size: 5vh;
+  font-weight: lighter;
 }
 
 #song_text {
@@ -58,7 +60,7 @@ h2.night {
 }
 
 .box-shadow {
-  box-shadow: 5px 5px black;
+  box-shadow: 3px 3px black;
 }
 
 /* .artistImgBox {
@@ -143,6 +145,7 @@ h3 {
 .album_art {
   height:90vh;
   position: relative;
+  vertical-align: bottom;
 }
 
 div.frame {
