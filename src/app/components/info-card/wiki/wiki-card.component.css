@@ -16,6 +16,7 @@ h3.day {
     font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
     color:black;
     overflow-wrap: break-word; 
+    font-size: 3vh;
 }
 
 h3.night {

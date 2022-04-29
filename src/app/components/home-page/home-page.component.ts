@@ -125,6 +125,7 @@ export class HomePageComponent {
         const color = packet.color;
         this.nightMode = packet["night_mode"] == true;
         this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+        this.prettify.bgcolorSet(color);
       }
     });
 

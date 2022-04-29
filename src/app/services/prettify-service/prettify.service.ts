@@ -4,11 +4,14 @@ import { AbstractPrettifyService } from './abstract-prettify.service';
 import { Injectable } from '@angular/core';
 
 var sheet: any;
+
 @Injectable({
   providedIn: 'root',
 })
 
 export class PrettifyService implements AbstractPrettifyService{
+  public bgdark: any;
+  public bgcolor: any;
 
   constructor(public process: AbstractProcessDataService) {
     var element = document.createElement('style');
@@ -20,15 +23,19 @@ export class PrettifyService implements AbstractPrettifyService{
     this.titleMutationObserver();
   }
 
+  public bgcolorSet(newbgcolor) {
+    this.bgcolor = newbgcolor;
+    this.genAlternateColor();
+  }
+  
+
   titleMutationObserver(){
     var observer = new MutationObserver((changes) => {
       changes.forEach(change => {
         if((change.target.parentNode as any).id == "song_text" || (change.target.parentNode as any).id == "artist_text"){
           var el = '';
           var sWidth = change.target.parentElement.offsetWidth;
-          console.log(`swidth = ${sWidth}`);
           var hWidth = change.target.parentElement.parentElement.offsetWidth;
-          console.log(`hwidth = ${hWidth}`);
           var titleElement: any;
           if((change.target.parentNode as any).id == "song_text"){
             titleElement = document.getElementById('song_title');
@@ -124,6 +131,18 @@ export class PrettifyService implements AbstractPrettifyService{
     {
       return result;
     }
+  }
+
+  private genAlternateColor() {
+    var contrast = 30;
+    var tempDark = [
+      this.bgcolor[0] - contrast,
+      this.bgcolor[1] - contrast,
+      this.bgcolor[2] - contrast
+    ]
+    this.bgdark = `rgb(${tempDark[0]}, ${tempDark[1]}, ${tempDark[2]})`;
+
+    
   }
 
 }

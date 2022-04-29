@@ -49,6 +49,7 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
                     this.authService.requestRefreshToken();
                 }
                 this.trackData.next(result);
+                
                 sleep(500).then(() => {
                     this.checkForNewSong();
                 });
