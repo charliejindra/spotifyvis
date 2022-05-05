@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { time } from 'console';
 import { BehaviorSubject, Observable, ObservableLike } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractAuthService } from './abstract-auth-service';
 
@@ -17,7 +17,6 @@ export class AuthService implements AbstractAuthService{
   // one hour = 3000000
   private time_till_expiry = 3000000;
   public spotifyAuthToken: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  
 
   constructor(public router: Router, public http: HttpClient, private actRoute: ActivatedRoute) {
   }
@@ -56,6 +55,7 @@ export class AuthService implements AbstractAuthService{
     `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`;
   }
 
+  //next time find out the query param unsub pattern
   public callback() {
     let queryParams = this.actRoute.queryParams.subscribe(params => {
       this.code = params.code;
@@ -65,6 +65,7 @@ export class AuthService implements AbstractAuthService{
       }, err => {
         console.error(err);
       });
+      queryParams.unsubscribe();
     });
   }
 
