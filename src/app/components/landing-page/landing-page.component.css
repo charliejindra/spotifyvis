@@ -10,7 +10,6 @@ button {
 	font-size: 1em;
 	display: inline-block;
 	border-radius: 5px;
-	/* box-shadow: 3px 3px 8px 0 #000; h-offset v-offset blur spread color */
 	margin: 10px;
 }
 

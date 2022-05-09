@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { AbstractAuthService } from 'src/app/services/auth-service/abstract-auth-service';
 import { AbstractPrettifyService } from '../../services/prettify-service/abstract-prettify.service';
 import { AbstractProcessDataService } from '../../services/process-data-service/abstract-process-data.service';
-import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
 import { AbstractThrottleService } from 'src/app/services/throttle-service/abstract-throttle.service';
+import { StreamAudioService } from 'src/app/services/stream-audio/stream-audio.service';
+import { AbstractSpotifyApiService } from 'src/app/services/spotify-api-service/abstract-spotify-api.service';
+import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
 
 @Component({
   selector: 'app-home-page',
@@ -39,13 +41,13 @@ export class HomePageComponent {
   public nightMode: boolean;
 
   constructor(private router:Router,
-    public authService: AbstractAuthService, spotifyService: SpotifyApiService, public throttle: AbstractThrottleService, 
+    public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
     public processDataService: AbstractProcessDataService, private prettify: AbstractPrettifyService){
     this.prevData = {"item": {
       "uri": ""
     }};
     this.setUpSubscribers();
-    spotifyService.trackData.subscribe((data) => {
+    this.streamAudio.trackData.subscribe((data) => {
       this.displayChange(data);
     });
   }
@@ -61,10 +63,10 @@ export class HomePageComponent {
         this.duration = "50vw";
       } else {
 
-        this.processDataService.getColor(data["item"]["album"]["images"][0]["url"]);
+        this.processDataService.getColor(data["album"]["images"][0]["url"]);
 
         // most operations should not be redone if the song is the same
-        if((this.prevData.item.uri != data.item.uri) || !this.prevData.item){
+        if((this.prevData.uri != data.uri) || !this.prevData){
 
           this.secondaryDisplay = "Spotify Image";
           this.secondaryDisplayActiveOptions.length = 0;
@@ -73,27 +75,32 @@ export class HomePageComponent {
 
           this.prevData = data;
           
-          this.artistList = this.getArtistList(data["item"]["artists"]);
+          this.artistList = this.getArtistList(data["artists"]);
           this.artist = this.prettify.commaify(this.artistList);
 
-          this.albumImg = data["item"]["album"]["images"][0]["url"];
+          data["album"]["images"].forEach(image => {
+            if(image["height"] == 640){
+              this.albumImg = image["url"];
+            }
+          });
+          //this.albumImg = data["album"]["images"][0]["url"];
 
 
-          var artistId = data["item"]["artists"][0]["id"];
+          var artistId = data["artists"][0]["uri"];
           this.processDataService.getArtistImage(artistId);
 
-          this.playing = data["item"]["name"];
+          this.playing = data["name"];
           
           this.processDataService.getWikipediaImage(this.artistList);
 
           //this.processDataService.newsAPI(this.artist);
 
-          var album_title = data["item"]["album"];
+          var album_title = data["album"];
           
 
         }
         const msPassed = data["progress_ms"];
-        const msTotal = data["item"]["duration_ms"];
+        const msTotal = data["duration_ms"];
         const pct = (msPassed/msTotal) * 100;
         this.complete = (pct/2.3);
         //this.complete = stringify(this.complete) + "vw"
