@@ -20,10 +20,10 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
         this.spotifyApi = new SpotifyWebApi();
         this.spotifyApi.setAccessToken(localStorage.getItem('access_token'));
         this.setUpSubscribers();
-        this.checkForNewSong();
+        this.checkForOldSong();
     }
 
-    public setUpSubscribers() {
+    private setUpSubscribers() {
         this.authService.spotifyAuthToken.subscribe((token) => {
             if(token){
                 if(token != this.spotifyApi.getAccessToken()){
@@ -37,26 +37,34 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
         })
     }
 
-    private checkForNewSong(){
+    private checkForOldSong() {
         const sleep = (milliseconds) => {
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
-        //console.log('heres the auth were using');
-        //console.log(this.spotifyApi.getAccessToken());
-        this.spotifyApi.getMyCurrentPlayingTrack().then(
-            result => {
-                if(parseInt(localStorage.getItem('access_token_expiry')) < Date.now()){
-                    this.authService.requestRefreshToken();
-                }
-                this.trackData.next(result);
-                
-                sleep(500).then(() => {
-                    this.checkForNewSong();
-                });
-                
-            }
-        ).catch(err => {
-            console.log(err);
+        sleep(500).then(() => {
+            this.checkForOldSong();
         });
     }
+
+    // private checkForNewSong(){
+    //     const sleep = (milliseconds) => {
+    //         return new Promise(resolve => setTimeout(resolve, milliseconds))
+    //     }
+    //     sleep(500).then(() => {
+    //         this.checkForNewSong();
+    //     });
+        // console.log('heres the auth were using');
+        // console.log(this.spotifyApi.getAccessToken());
+        // this.spotifyApi.getMyCurrentPlayingTrack().then(
+        //     result => {
+        //         if(parseInt(localStorage.getItem('access_token_expiry')) < Date.now()){
+        //             this.authService.requestRefreshToken();
+        //         }
+
+        //         //this.trackData.next(result);
+        //     }
+        // ).catch(err => {
+        //     console.log(err);
+        // });
+    // }
 }

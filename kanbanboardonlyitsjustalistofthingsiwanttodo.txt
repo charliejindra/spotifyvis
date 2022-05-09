@@ -7,6 +7,7 @@ LIST OF FEATURES I WANT TO MAKE
 - genius api -- can we get the overall song analysis if its there?
     - yes, but all api calls (for a server side app) have to be authenticated via bearer token
     - is it worth it to do login to get that info? probably eventually but not now
+- get tweets from artist?
 
 
 LIST OF IDEAS THAT I MAY SCRAp

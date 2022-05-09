@@ -16,7 +16,7 @@ const wiki = require('wikipedia');
 @Injectable({
   providedIn: 'root',
 })
-export class ProcessDataService implements AbstractProcessDataService{
+export class ProcessDataService implements AbstractProcessDataService {
     public colorPacketDefault = {
         "done":false,
         "color":[]
@@ -35,8 +35,7 @@ export class ProcessDataService implements AbstractProcessDataService{
     public rymReviewPacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
     public wikiImagePacket: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
-    constructor(router: Router, public mathutil: MathUtil, public http: HttpClient, 
-        public spotify: AbstractSpotifyApiService) { 
+    constructor(router: Router, public mathutil: MathUtil, public http: HttpClient, private spotify: AbstractSpotifyApiService) { 
     }
 
     public getColor(coverUrl){
@@ -191,9 +190,10 @@ export class ProcessDataService implements AbstractProcessDataService{
 
     
     public getArtistImage(artistId){
-        // this.spotify.artistImageCall(artistId).subscribe((image) => {
-        //     console.log('image!');
-        // });
+        if(artistId.includes('artist')) {
+            var tempList = artistId.split(':');
+            artistId = tempList[tempList.length-1];
+        }
         this.spotify.spotifyApi.getArtist(artistId).then((data) =>
         {
             var imageToUse = data.images[0].url;
@@ -244,6 +244,7 @@ export class ProcessDataService implements AbstractProcessDataService{
                 console.log(images);
                 var counter = 5;
                 do {
+                    var valid = true;
                     // more artists means more pics. weigh it heavier
                     var imageQty = images.length + ((artistList.length - 1) * 2);
                     var diceroll = Math.floor(Math.random() * images.length);
@@ -258,14 +259,24 @@ export class ProcessDataService implements AbstractProcessDataService{
                     }
                     if(image.caption){
                         caption = image.caption.text;
+                    } else {
+                        // if the image is not the actual front page image
+                        // and it doesnt have a caption, it probably
+                        // doesnt have the context it needs.
+                        if(diceroll != 0)
+                            valid = false;
                     }
                     counter = counter - 1;
-                } while (this.isInBlacklist(src) && counter > 0)
-                this.wikiImagePacket.next({
-                    "src" : src,
-                    "caption" : caption,
-                    "imageQty" : imageQty
-                });
+                } while ((this.isInBlacklist(src) && counter > 0) || !valid)
+                // if we tried and failed 5 times, dont show that pic.
+                if(counter > 0){
+                    this.wikiImagePacket.next({
+                        "src" : src,
+                        "caption" : caption,
+                        "imageQty" : imageQty
+                    });
+                }
+                
                 //Response of type @wikiSummary - contains the intro and the main image
             } catch (error) {
                 console.log(error);
