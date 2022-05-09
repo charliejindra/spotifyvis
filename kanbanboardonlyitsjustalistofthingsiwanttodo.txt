@@ -20,6 +20,9 @@ LIST OF FUN THINGS THAT I HOPEFULLY COULD EVENTUALLY GET TO
     add a special picture, etc.
     - ex with hosono house i could make the title color be the blue of the album
 
-NAME IDEAS
-- something about the collecting info for you.
-- seeker
+LIST OF THINGS I NEED TO DO BEFORE I RELEASE THE FIRST VERSION
+- buy domain
+- setup aws cloudfront distro
+- fix that pausing bug
+- change initial album pic with steps to get streaming going on your device
+- make images line up with the album cover

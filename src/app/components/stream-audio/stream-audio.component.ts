@@ -22,7 +22,7 @@ export class StreamAudioComponent {
       const token = localStorage.getItem('access_token');
       //let Spotify: any;
       this.trackData = new BehaviorSubject<any>(null);
-      
+      this.loadScripts();
 
       window.onSpotifyWebPlaybackSDKReady = () => {
         //const token = localStorage.getItem('access_token');
@@ -58,10 +58,12 @@ export class StreamAudioComponent {
           });
 
         this.player.addListener('initialization_error', ({ message }) => {
+            console.log('61');
             console.error(message);
         });
 
         this.player.addListener('authentication_error', ({ message }) => {
+            console.log('66');
             console.error(message);
         });
 
@@ -70,6 +72,7 @@ export class StreamAudioComponent {
         });
 
         this.player.on('playback_error', ({ message }) => {
+            console.log('75');
             console.error('Failed to perform playback', message);
           });
 
@@ -80,8 +83,10 @@ export class StreamAudioComponent {
         
 
         this.player.connect().then((result)=>{
+            console.log('86');
             console.log(result);
         }).catch((e)=> {
+            console.log('89');
             console.log(e)
         });
 
@@ -119,6 +124,20 @@ export class StreamAudioComponent {
         });
     });
   }
+
+  private loadScripts(){
+    const sdkscript = "https://sdk.scdn.co/spotify-player.js";
+    const scripts = [sdkscript];
+
+    for(let i = 0; i < scripts.length; i++){
+        const node = document.createElement('script');
+        node.src = scripts[i];
+        node.type = 'text/javascript';
+        node.async = false;
+        const thingy = document.getElementsByTagName('head')[0];
+        thingy.appendChild(node);
+    }
+}
   
   
 }
