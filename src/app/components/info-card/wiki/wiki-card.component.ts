@@ -11,6 +11,7 @@ export class WikiCardComponent {
 
     public wikiImg: any;
     public wikiCaption: any;
+    public hasCaption: boolean;
 
     @Input() night: boolean;
 
@@ -23,6 +24,7 @@ export class WikiCardComponent {
         this.processDataService.wikiImagePacket.subscribe((packet) => {
             this.wikiImg = packet["src"];
             this.wikiCaption = packet["caption"];
+            this.hasCaption = this.wikiCaption != '';
         });
 
     }

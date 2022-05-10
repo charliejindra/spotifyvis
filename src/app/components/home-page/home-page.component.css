@@ -40,7 +40,7 @@ h2.night {
 
 .center-cropped {
     /* width: 50vw; */
-    height: 60vh;
+    
     /* all the way down = 67vh */
     
     position: relative;
@@ -62,10 +62,6 @@ h2.night {
 .box-shadow {
   box-shadow: 3px 3px black;
 }
-
-/* .artistImgBox {
-    padding-top: 3vh;
-} */
 
 @keyframes songscroll {
     from {
@@ -156,3 +152,6 @@ div.frame {
   max-width: 50vw;
 }
 
+.artistImgBox {
+  height: 68vh;
+}

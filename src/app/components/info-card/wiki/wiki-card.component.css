@@ -5,7 +5,7 @@
 }
 
 img.box-shadow {
-  box-shadow: 5px 5px black;
+  box-shadow: 5px 5px black;    
 }
 
 img#night {
@@ -33,4 +33,12 @@ div.frame {
 
 .noblur {
     filter: blur(0);
+}
+
+#withCaption {
+    height: 64vh;
+}
+
+#noCaption {
+    height: 68vh;
 }

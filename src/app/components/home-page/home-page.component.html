@@ -30,7 +30,7 @@
         <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
             <img *ngIf="artistImg" [src]="artistImg" class="image-fit" [id]="nightMode ? 'night' : 'day'"/>
         </div>
-        <div [hidden]="secondaryDisplay != 'Wiki Image'" class="artistImgBox center-cropped">
+        <div [hidden]="secondaryDisplay != 'Wiki Image'">
             <wiki-card [night]="nightMode"></wiki-card>
         </div>
     </div>

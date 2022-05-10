@@ -26,3 +26,4 @@ LIST OF THINGS I NEED TO DO BEFORE I RELEASE THE FIRST VERSION
 - fix that pausing bug
 - change initial album pic with steps to get streaming going on your device
 - make images line up with the album cover
+- make sure the stream lasts the right amount of time. right now i think its tweakin rlly early lol
