@@ -1,0 +1,40 @@
+<div id="background" class="bg" [style.background-color]="bgcolor">
+</div>
+<div class="frame noblur box-shadow" style="display:inline-block;">
+    <img class="album_art" [src]="albumImg"/>
+</div>
+<div class="noblur" style="display:inline-block; width: 45vw" >
+    <div *ngIf="nightMode; else dayMode">
+        <h1 id="song_title" class="night">
+            <span id="song_text">{{ songName }}</span>
+        </h1>
+        <h2 id="artist_title" class="night">
+            <span id="artist_text">{{ artist }}</span>
+        </h2>
+    </div>
+    <ng-template #dayMode>
+        <h1 id="song_title" class="day">
+            <span id="song_text">{{ songName }}</span>
+        </h1>
+        <h2 id="artist_title" class="day">
+            <span id="artist_text">{{ artist }}</span>
+        </h2>
+    </ng-template>
+    
+    
+    <app-stream-audio></app-stream-audio>
+    <div id="card" [style.background-color]="this.prettify.bgdark">
+        <!-- <div [hidden]="secondaryDisplay != 'News'">
+            <news-card [night]="nightMode"></news-card>
+        </div> -->
+        <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
+            <img *ngIf="artistImg" [src]="artistImg" class="image-fit" [id]="nightMode ? 'night' : 'day'"/>
+        </div>
+        <div [hidden]="secondaryDisplay != 'Wiki Image'">
+            <wiki-card [night]="nightMode"></wiki-card>
+        </div>
+    </div>
+    
+    
+    
+</div>

@@ -16,7 +16,7 @@ import { style } from '@angular/animations';
 })
 export class HomePageComponent {
 
-  public playing: any;
+  public songName: any;
   public albumImg: any;
   public artist: any;
   public complete: any;
@@ -70,7 +70,7 @@ export class HomePageComponent {
     if(data){
       if(data["currently_playing_type"] == "episode"){
         this.artist = "";
-        this.playing = "Playing Podcast";
+        this.songName = "Playing Podcast";
         this.albumImg = "https://rachelcorbett.com.au/wp-content/uploads/2018/07/Neon-podcast-logo.jpg";
 
         this.complete = "0vw";
@@ -78,6 +78,7 @@ export class HomePageComponent {
       } else {
 
         this.processDataService.getColor(data["album"]["images"][0]["url"]);
+        console.log(this.secondaryDisplay);
 
         // most operations should not be redone if the song is the same
         if((this.prevData.uri != data.uri) || !this.prevData){
@@ -103,7 +104,7 @@ export class HomePageComponent {
           var artistId = data["artists"][0]["uri"];
           this.processDataService.getArtistImage(artistId);
 
-          this.playing = data["name"];
+          this.songName = data["name"];
           
           this.processDataService.getWikipediaImage(this.artistList);
 
@@ -125,7 +126,7 @@ export class HomePageComponent {
       
       
     } else {
-      this.playing = "Play a song to get started!"
+      this.songName = "Play a song to get started!"
       this.artist = "Play a song to get started!";
       this.albumImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/1200px-Square_-_black_simple.svg.png";
       this.complete = "0vw";
