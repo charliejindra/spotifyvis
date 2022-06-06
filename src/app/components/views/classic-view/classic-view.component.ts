@@ -1,5 +1,5 @@
-//import { stringify } from '@angular/compiler/src/util';
 import { Component, Input } from '@angular/core';
+import { AbstractPrettifyService } from 'src/app/services/prettify-service/abstract-prettify.service';
 
 @Component({
   selector: 'app-classic-view',
@@ -7,8 +7,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./classic-view.component.css']
 })
 export class ClassicViewComponent {
-
-    
 
   @Input() data: any;
   @Input() songName: string;
@@ -18,6 +16,7 @@ export class ClassicViewComponent {
   @Input() complete: any;
   @Input() duration: any;
   @Input() bgcolor: any;
+  @Input() bgdark: any;
   @Input() prevData: any;
   @Input() newsHeadline: any;
   @Input() newsImgUrl: any;
@@ -30,12 +29,10 @@ export class ClassicViewComponent {
   @Input() story = false;
 
 
-  constructor(){
+  constructor(public prettify: AbstractPrettifyService){
     this.prevData = {"item": {
       "uri": ""
     }};
   }
 
-  
-  
 }

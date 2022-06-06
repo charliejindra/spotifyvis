@@ -139,7 +139,7 @@ export class PrettifyService implements AbstractPrettifyService{
     }
   }
 
-  private genAlternateColor() {
+  public genAlternateColor() {
     var contrast = 30;
     var tempDark = [
       this.bgcolor[0] - contrast,
@@ -147,7 +147,7 @@ export class PrettifyService implements AbstractPrettifyService{
       this.bgcolor[2] - contrast
     ]
     this.bgdark = `rgb(${tempDark[0]}, ${tempDark[1]}, ${tempDark[2]})`;
-
+    return this.bgdark;
     
   }
 

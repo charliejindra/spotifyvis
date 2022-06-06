@@ -22,6 +22,7 @@ export class HomePageComponent {
   public complete: any;
   public duration: any;
   public bgcolor: any;
+  public bgdark: any;
   public prevData: any;
   public newsHeadline: any;
   public newsImgUrl: any;
@@ -43,7 +44,7 @@ export class HomePageComponent {
 
   constructor(private router:Router,
     public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
-    public processDataService: AbstractProcessDataService, private prettify: AbstractPrettifyService){
+    public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -148,6 +149,7 @@ export class HomePageComponent {
         this.nightMode = packet["night_mode"] == true;
         this.bgcolor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
         this.prettify.bgcolorSet(color);
+        this.bgdark = this.prettify.genAlternateColor();
       }
     });
 

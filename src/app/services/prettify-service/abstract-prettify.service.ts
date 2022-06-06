@@ -5,4 +5,5 @@ export abstract class AbstractPrettifyService {
     public abstract bgcolorSet(color);
     public abstract bgcolor: any;
     public abstract adjustPadding(increase?: boolean);
+    public abstract genAlternateColor();
 }
