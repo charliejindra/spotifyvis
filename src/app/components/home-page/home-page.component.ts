@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, HostListener, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractAuthService } from 'src/app/services/auth-service/abstract-auth-service';
 import { AbstractPrettifyService } from '../../services/prettify-service/abstract-prettify.service';
@@ -7,6 +7,7 @@ import { AbstractThrottleService } from 'src/app/services/throttle-service/abstr
 import { StreamAudioService } from 'src/app/services/stream-audio/stream-audio.service';
 import { AbstractSpotifyApiService } from 'src/app/services/spotify-api-service/abstract-spotify-api.service';
 import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-home-page',
@@ -50,6 +51,19 @@ export class HomePageComponent {
     this.streamAudio.trackData.subscribe((data) => {
       this.displayChange(data);
     });
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    switch(event.key) {
+      case 'w':
+        this.prettify.adjustPadding();
+        break;
+      case 'q':
+        this.prettify.adjustPadding(false);
+        break;
+    }
+    
   }
 
   private async displayChange(data){

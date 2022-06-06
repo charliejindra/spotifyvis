@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import SpotifyWebApi from 'spotify-web-api-js';
+import { AbstractAuthService } from 'src/app/services/auth-service/abstract-auth-service';
 import { StreamAudioService } from 'src/app/services/stream-audio/stream-audio.service';
 
 declare global {
@@ -18,7 +19,7 @@ export class StreamAudioComponent {
     public player: any;
     public trackData: BehaviorSubject<any>;
 
-  constructor(public streamAudio: StreamAudioService){
+  constructor(public streamAudio: StreamAudioService, public auth: AbstractAuthService){
       const token = localStorage.getItem('access_token');
       //let Spotify: any;
       this.trackData = new BehaviorSubject<any>(null);

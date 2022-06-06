@@ -36,9 +36,9 @@ div.frame {
 }
 
 #withCaption {
-    height: 64vh;
+    height: calc(64vh - var(--outside-padding));
 }
 
 #noCaption {
-    height: 68vh;
+    height: calc(68vh - var(--outside-padding));
 }

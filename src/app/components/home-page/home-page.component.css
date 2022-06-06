@@ -82,6 +82,8 @@ h3 {
 
 .noblur {
     filter: blur(0);
+    display:inline-block; 
+    width: calc(45vw - var(--outside-padding));
 }
 
 #background {
@@ -139,9 +141,11 @@ h3 {
 }
 
 .album_art {
-  height:90vh;
+  height: calc(90vh - var(--outside-padding));
   position: relative;
   vertical-align: bottom;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 div.frame {
@@ -153,5 +157,5 @@ div.frame {
 }
 
 .artistImgBox {
-  height: 68vh;
+  height: calc(68vh - var(--outside-padding));
 }
