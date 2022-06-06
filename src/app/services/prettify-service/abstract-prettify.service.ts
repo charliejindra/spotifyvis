@@ -4,4 +4,5 @@ export abstract class AbstractPrettifyService {
     public abstract commaify(object);
     public abstract bgcolorSet(color);
     public abstract bgcolor: any;
+    public abstract adjustPadding(increase?: boolean);
 }

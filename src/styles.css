@@ -1,3 +1,7 @@
+:root {
+    --outside-padding: 0vh;
+}
+
 body {
     overflow: hidden; /* Hide scrollbars */
 }
@@ -56,4 +60,8 @@ header,
 
 img#night {
     filter: brightness(40%);
+}
+
+.outside-padding {
+    padding: var(--outside-padding);
 }

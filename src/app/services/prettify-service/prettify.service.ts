@@ -1,7 +1,8 @@
 import { AbstractProcessDataService } from '../process-data-service/abstract-process-data.service';
 import { AbstractThrottleService } from '../throttle-service/abstract-throttle.service';
 import { AbstractPrettifyService } from './abstract-prettify.service';
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
+import { style } from '@angular/animations';
 
 var sheet: any;
 
@@ -14,12 +15,17 @@ export class PrettifyService implements AbstractPrettifyService{
   public bgcolor: any;
 
   constructor(public process: AbstractProcessDataService) {
+
+    if(!localStorage.getItem('outside-padding')){
+      localStorage.setItem('outside-padding', '0px');
+    }
     var element = document.createElement('style');
     // Append style element to head
     document.head.appendChild(element), sheet;
 
     // Reference to the stylesheet
     sheet = element.sheet;
+    console.log(sheet);
     this.titleMutationObserver();
   }
 
@@ -145,6 +151,14 @@ export class PrettifyService implements AbstractPrettifyService{
     
   }
 
+  public adjustPadding(increase: boolean = true) {
+    var styleSheet = document.body.style;
+    var newPad = parseFloat(localStorage.getItem('outside-padding'));
+    newPad = increase ? newPad += .1 : newPad -= .1;
+    localStorage.setItem('outside-padding', newPad.toString());
+    styleSheet.setProperty('--outside-padding', `${newPad}vh`);
+  }
+
 }
 
 function removeAndAppendMarquee(sWidth, hWidth, el) {
@@ -176,4 +190,3 @@ function removeAndAppendMarquee(sWidth, hWidth, el) {
   sheet.insertRule(styles);
 
 }
-
