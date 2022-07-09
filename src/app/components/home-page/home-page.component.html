@@ -1,17 +1,36 @@
-<app-classic-view 
-[artist]="artist"
-[complete]="complete"
-[duration]="duration"
-[bgcolor]="bgcolor"
-[prevData]="prevData"
-[newsHeadline]="newsHeadline"
-[newsImgUrl]="newsImgUrl"
-[newsDesc]="newsDesc"
-[albumImg]="albumImg"
-[songName]="songName" 
-[artistImg]="artistImg"
-[wikiImg]="wikiImg"
-[wikiCaption]="wikiCaption"
-[data]="data"
-[bgdark]="bgdark"
-[secondaryDisplay]="secondaryDisplay"></app-classic-view>
+<app-stream-audio></app-stream-audio>
+<div [ngSwitch]="view">
+    <div *ngSwitchCase="'queue'">
+        <app-queue-view 
+        [artist]="artist"
+        [songName]="songName"
+        [albumImg]="albumImg"
+        [bgcolor]="bgcolor" 
+        [bgdark]="bgdark"
+        [nextNames]="nextNames"
+        [nextArts]="nextArts"
+        [prevNames]="prevNames"
+        [prevArts]="prevArts">
+        </app-queue-view>
+    </div>
+    <div *ngSwitchDefault>
+        <app-classic-view 
+            [songName]="songName" 
+            [artist]="artist"
+            [complete]="complete"
+            [duration]="duration"
+            [bgcolor]="bgcolor"
+            [prevData]="prevData"
+            [newsHeadline]="newsHeadline"
+            [newsImgUrl]="newsImgUrl"
+            [newsDesc]="newsDesc"
+            [albumImg]="albumImg"
+            
+            [artistImg]="artistImg"
+            [wikiImg]="wikiImg"
+            [wikiCaption]="wikiCaption"
+            [data]="data"
+            [bgdark]="bgdark"
+            [secondaryDisplay]="secondaryDisplay"></app-classic-view>
+    </div>
+</div>

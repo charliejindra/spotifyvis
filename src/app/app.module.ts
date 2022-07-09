@@ -25,6 +25,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { CallbackComponent } from './components/callback/callback.component';
 import { WikiCardComponent } from './components/info-card/wiki/wiki-card.component';
 import { ClassicViewComponent } from './components/views/classic-view/classic-view.component';
+import { QueueViewComponent } from './components/views/queue-view/queue-view.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -38,7 +39,8 @@ export function initializeApp(appconfig: AppConfig){
     WikiCardComponent,
     LandingPageComponent,
     CallbackComponent,
-    ClassicViewComponent
+    ClassicViewComponent,
+    QueueViewComponent
   ],
   imports: [
     BrowserModule,

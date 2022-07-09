@@ -16,6 +16,10 @@ import { style } from '@angular/animations';
 })
 export class HomePageComponent {
 
+  // TODO - make this changeable on the ui side.
+  public view: string = 'normal';
+
+  public now: any;
   public songName: any;
   public albumImg: any;
   public artist: any;
@@ -39,6 +43,14 @@ export class HomePageComponent {
   ];
   public secondaryDisplay = "Spotify Image";
   public artistList = [];
+
+  public prev_tracks: any;
+  public next_tracks: any;
+
+  public nextNames: any;
+  public nextArts: any;
+  public prevNames: any;
+  public prevArts: any;
 
   public nightMode: boolean;
 
@@ -69,7 +81,10 @@ export class HomePageComponent {
 
   private async displayChange(data){
     if(data){
-      if(data["currently_playing_type"] == "episode"){
+      this.now = data["now"];
+      this.next_tracks = data["next"];
+      this.prev_tracks = data["prev"];
+      if(this.now["currently_playing_type"] == "episode"){
         this.artist = "";
         this.songName = "Playing Podcast";
         this.albumImg = "https://rachelcorbett.com.au/wp-content/uploads/2018/07/Neon-podcast-logo.jpg";
@@ -78,45 +93,59 @@ export class HomePageComponent {
         this.duration = "50vw";
       } else {
 
-        this.processDataService.getColor(data["album"]["images"][0]["url"]);
+        this.processDataService.getColor(this.now["album"]["images"][0]["url"]);
         console.log(this.secondaryDisplay);
 
         // most operations should not be redone if the song is the same
-        if((this.prevData.uri != data.uri) || !this.prevData){
+        if((this.prevData.uri != this.now.uri) || !this.prevData){
 
           this.secondaryDisplay = "Spotify Image";
           this.secondaryDisplayActiveOptions.length = 0;
 
           this.story = false;
 
-          this.prevData = data;
+          this.prevData = this.now;
           
-          this.artistList = this.getArtistList(data["artists"]);
+          this.artistList = this.getArtistList(this.now["artists"]);
           this.artist = this.prettify.commaify(this.artistList);
 
-          data["album"]["images"].forEach(image => {
+          this.now["album"]["images"].forEach(image => {
             if(image["height"] == 640){
               this.albumImg = image["url"];
             }
           });
-          //this.albumImg = data["album"]["images"][0]["url"];
 
 
-          var artistId = data["artists"][0]["uri"];
+          var artistId = this.now["artists"][0]["uri"];
           this.processDataService.getArtistImage(artistId);
 
-          this.songName = data["name"];
+          this.songName = this.now["name"];
           
           this.processDataService.getWikipediaImage(this.artistList);
 
           //this.processDataService.newsAPI(this.artist);
 
-          var album_title = data["album"];
+          var album_title = this.now["album"];
+
+          if(this.view === "queue"){
+            this.nextNames = this.next_tracks[0]["name"];
+            this.next_tracks[0]["album"]["images"].forEach(image => {
+              if(image["height"] == 640){
+                this.nextArts = image["url"];
+              }
+            });
+            this.prevNames = this.prev_tracks[1]["name"];
+            this.prev_tracks[1]["album"]["images"].forEach(image => {
+              if(image["height"] == 640){
+                this.prevArts = image["url"];
+              }
+            });
+          }
           
 
         }
-        const msPassed = data["progress_ms"];
-        const msTotal = data["duration_ms"];
+        const msPassed = this.now["progress_ms"];
+        const msTotal = this.now["duration_ms"];
         const pct = (msPassed/msTotal) * 100;
         this.complete = (pct/2.3);
         //this.complete = stringify(this.complete) + "vw"

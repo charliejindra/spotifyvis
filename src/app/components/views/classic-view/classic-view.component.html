@@ -1,7 +1,7 @@
 <div id="background" class="bg" [style.background-color]="bgcolor">
 </div>
 <div class="frame noblur box-shadow" style="display:inline-block;">
-    <img class="album_art" [src]="albumImg"/>
+    <img class="album_art" id="bg_album" [src]="albumImg"/>
 </div>
 <div class="noblur" style="display:inline-block; width: 45vw" >
     <div *ngIf="nightMode; else dayMode">
@@ -21,8 +21,6 @@
         </h2>
     </ng-template>
     
-    
-    <app-stream-audio></app-stream-audio>
     <div id="card" [style.background-color]="bgdark">
         <!-- <div [hidden]="secondaryDisplay != 'News'">
             <news-card [night]="nightMode"></news-card>

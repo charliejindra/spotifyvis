@@ -13,6 +13,8 @@ var sheet: any;
 export class PrettifyService implements AbstractPrettifyService{
   public bgdark: any;
   public bgcolor: any;
+  public hexBgDark: any;
+  public hexBg: any;
 
   constructor(public process: AbstractProcessDataService) {
 
@@ -31,6 +33,7 @@ export class PrettifyService implements AbstractPrettifyService{
 
   public bgcolorSet(newbgcolor) {
     this.bgcolor = newbgcolor;
+    this.hexBg = this.rgbToHex(newbgcolor[0], newbgcolor[1], newbgcolor[2]);
     this.genAlternateColor();
   }
   
@@ -141,12 +144,19 @@ export class PrettifyService implements AbstractPrettifyService{
 
   public genAlternateColor() {
     var contrast = 30;
+    var extraContrast = 70;
     var tempDark = [
       this.bgcolor[0] - contrast,
       this.bgcolor[1] - contrast,
       this.bgcolor[2] - contrast
     ]
+    var tempExtraDark = [
+      this.bgcolor[0] - extraContrast,
+      this.bgcolor[1] - extraContrast,
+      this.bgcolor[2] - extraContrast
+    ]
     this.bgdark = `rgb(${tempDark[0]}, ${tempDark[1]}, ${tempDark[2]})`;
+    this.hexBgDark = this.rgbToHex(tempExtraDark[0], tempExtraDark[1], tempExtraDark[2]);
     return this.bgdark;
     
   }
@@ -158,6 +168,16 @@ export class PrettifyService implements AbstractPrettifyService{
     localStorage.setItem('outside-padding', newPad.toString());
     styleSheet.setProperty('--outside-padding', `${newPad}vh`);
   }
+
+  componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  
+  rgbToHex(r, g, b) {
+    return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+  }
+  
 
 }
 

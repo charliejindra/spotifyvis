@@ -1,0 +1,45 @@
+<table>
+    <tr>
+        <div class="noblur">
+            <div *ngIf="nightMode; else dayMode">
+                <h1 id="song_title" class="night">
+                    <span id="song_text">{{ songName }}</span>
+                </h1>
+                <h2 id="artist_title" class="night">
+                    <span id="artist_text">{{ artist }}</span>
+                </h2>
+            </div>
+            <ng-template #dayMode>
+                <h1 id="song_title" class="day">
+                    <span id="song_text">{{ songName }}</span>
+                </h1>
+                <h2 id="artist_title" class="day">
+                    <span id="artist_text">{{ artist }}</span>
+                </h2>
+            </ng-template>
+            
+            
+        </div>
+    </tr>
+    <tr class="album-row">
+        <div id="background" class="bg" [style.background-image]="renderGradient()">
+        </div>
+        <div class="frame noblur vertcenter" style="display:inline-block;">
+            <img class="album_art_queue" [src]="prevArts"/>
+        </div>
+        <div class="frame noblur vertcenter" style="display:inline-block;">
+            <img class="album_art_queue" [src]="prevArts"/>
+        </div>
+        <div class="frame noblur" style="display:inline-block;">
+            <img class="album_art" id="bg_album" [src]="albumImg"/>
+        </div>
+        <div class="frame noblur vertcenter" style="display:inline-block;">
+            <img class="album_art_queue" [src]="nextArts"/>
+        </div>
+        <div class="frame noblur vertcenter" style="display:inline-block;">
+            <img class="album_art_queue" [src]="nextArts"/>
+        </div>
+    </tr>
+    
+    
+</table>

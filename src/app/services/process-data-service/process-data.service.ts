@@ -57,8 +57,9 @@ export class ProcessDataService implements AbstractProcessDataService {
     private changeColor() {
     //const colorPromise = new Promise((resolve, reject) => {
         const colorThief = new ColorThief();
-        const img = document.querySelector('img');
-        img.crossOrigin = "Anonymous";
+        //const img = document.querySelector('img');
+        const img = document.getElementById('bg_album');
+        (img as HTMLImageElement).crossOrigin = "Anonymous";
         
         // if (img.complete) {
         // var palette = colorThief.getPalette(img, 3);
@@ -79,8 +80,8 @@ export class ProcessDataService implements AbstractProcessDataService {
 
     private funnelColor(){
         const colorThief = new ColorThief();
-        const img = document.querySelector('img');
-        img.crossOrigin = "Anonymous";
+        const img = document.getElementById('bg_album');
+        (img as HTMLImageElement).crossOrigin = "Anonymous";
         var nightMode = false;
         
         var palette = colorThief.getPalette(img, 3);
