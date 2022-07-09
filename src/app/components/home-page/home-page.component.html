@@ -1,42 +1,36 @@
-<div class="outside-padding">
-    <div id="background" class="bg" [style.background-color]="bgcolor">
+<app-stream-audio></app-stream-audio>
+<div [ngSwitch]="view">
+    <div *ngSwitchCase="'queue'">
+        <app-queue-view 
+        [artist]="artist"
+        [songName]="songName"
+        [albumImg]="albumImg"
+        [bgcolor]="bgcolor" 
+        [bgdark]="bgdark"
+        [nextNames]="nextNames"
+        [nextArts]="nextArts"
+        [prevNames]="prevNames"
+        [prevArts]="prevArts">
+        </app-queue-view>
     </div>
-    <div class="frame noblur box-shadow" style="display:inline-block;">
-        <img class="album_art" [src]="albumImg"/>
-    </div>
-    <div class="noblur" >
-        <div *ngIf="nightMode; else dayMode">
-            <h1 id="song_title" class="night">
-                <span id="song_text">{{ playing }}</span>
-            </h1>
-            <h2 id="artist_title" class="night">
-                <span id="artist_text">{{ artist }}</span>
-            </h2>
-        </div>
-        <ng-template #dayMode>
-            <h1 id="song_title" class="day">
-                <span id="song_text">{{ playing }}</span>
-            </h1>
-            <h2 id="artist_title" class="day">
-                <span id="artist_text">{{ artist }}</span>
-            </h2>
-        </ng-template>
-        
-        
-        <app-stream-audio></app-stream-audio>
-        <div id="card" [style.background-color]="this.prettify.bgdark">
-            <div [hidden]="secondaryDisplay != 'News'">
-                <news-card [night]="nightMode"></news-card>
-            </div>
-            <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
-                <img *ngIf="artistImg" [src]="artistImg" class="image-fit" [id]="nightMode ? 'night' : 'day'"/>
-            </div>
-            <div [hidden]="secondaryDisplay != 'Wiki Image'">
-                <wiki-card [night]="nightMode"></wiki-card>
-            </div>
-        </div>
-        
-        
-        
+    <div *ngSwitchDefault>
+        <app-classic-view 
+            [songName]="songName" 
+            [artist]="artist"
+            [complete]="complete"
+            [duration]="duration"
+            [bgcolor]="bgcolor"
+            [prevData]="prevData"
+            [newsHeadline]="newsHeadline"
+            [newsImgUrl]="newsImgUrl"
+            [newsDesc]="newsDesc"
+            [albumImg]="albumImg"
+            
+            [artistImg]="artistImg"
+            [wikiImg]="wikiImg"
+            [wikiCaption]="wikiCaption"
+            [data]="data"
+            [bgdark]="bgdark"
+            [secondaryDisplay]="secondaryDisplay"></app-classic-view>
     </div>
 </div>

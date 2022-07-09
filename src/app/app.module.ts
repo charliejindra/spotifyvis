@@ -24,6 +24,8 @@ import { ThrottleService } from './services/throttle-service/throttle.service';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { CallbackComponent } from './components/callback/callback.component';
 import { WikiCardComponent } from './components/info-card/wiki/wiki-card.component';
+import { ClassicViewComponent } from './components/views/classic-view/classic-view.component';
+import { QueueViewComponent } from './components/views/queue-view/queue-view.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -36,7 +38,9 @@ export function initializeApp(appconfig: AppConfig){
     NewsCardComponent,
     WikiCardComponent,
     LandingPageComponent,
-    CallbackComponent
+    CallbackComponent,
+    ClassicViewComponent,
+    QueueViewComponent
   ],
   imports: [
     BrowserModule,

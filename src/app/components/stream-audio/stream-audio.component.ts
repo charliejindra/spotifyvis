@@ -111,13 +111,19 @@ export class StreamAudioComponent {
         }
       
         var current_track = state.track_window.current_track;
-        var next_track = state.track_window.next_tracks[0];
+        var next_tracks = state.track_window.next_tracks;
+        var prev_tracks = state.track_window.previous_tracks;
       
         console.log('Currently Playing', current_track);
-        console.log('Playing Next', next_track);
+        console.log('Playing Next', next_tracks);
 
         //this.spotifyApi.updateSongFromSDK(current_track);
-        this.streamAudio.changeTrack(current_track);
+        this.streamAudio.changeTrack(
+            {'now': current_track,
+            'next': next_tracks,
+            'prev': prev_tracks
+            }
+    );
         
 
         sleep(500).then(() => {
