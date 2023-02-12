@@ -1,0 +1,44 @@
+.image-fit {
+  width: 100%;
+  height: 100%; 
+  object-fit: contain;
+}
+
+img.box-shadow {
+  box-shadow: 5px 5px black;    
+}
+
+img#night {
+    filter: brightness(40%);
+}
+
+h3.day {
+    font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
+    color:black;
+    overflow-wrap: break-word; 
+    font-size: 3vh;
+}
+
+h3.night {
+    font-family: Bahnschrift Light, Arial, Helvetica, sans-serif;
+    color:whitesmoke;
+    overflow-wrap: break-word; 
+}
+
+div.frame {
+    margin: 2vh;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.noblur {
+    filter: blur(0);
+}
+
+#withCaption {
+    height: calc(64vh - var(--outside-padding));
+}
+
+#noCaption {
+    height: calc(68vh - var(--outside-padding));
+}

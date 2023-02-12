@@ -1,1 +1,67 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --outside-padding: 0vh;
+}
+
+body {
+    overflow: hidden; /* Hide scrollbars */
+}
+
+h1 {
+    margin-block-end: 0px;
+}
+
+h3 {
+    margin-block-start: 0px;
+}
+
+h2 {
+    font-family: Bahnschrift SemiBold , Arial, Helvetica, sans-serif;
+    color:black;
+    /* overflow-wrap: break-word;  */
+    font-size: 6vh;
+    margin-block-start: 0px;
+}
+
+.parent {
+    max-width: 500px;
+    margin: auto;
+        
+}
+
+button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+html,
+body,
+header,
+#intro {
+    height: 100%;
+}
+
+#intro {
+    background: linear-gradient(white, whitesmoke, #45ff54) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+img#night {
+    filter: brightness(40%);
+}
+
+.outside-padding {
+    padding: var(--outside-padding);
+}

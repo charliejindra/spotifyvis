@@ -1,0 +1,32 @@
+LIST OF FEATURES I WANT TO MAKE
+- bing image search for artist/song title and show image
+- image search thru wikipedia (with caption would actually be rlly cool)
+- scrape rate your music, or maybe other review sites too, for snippet of review
+- pitchfork review snippet
+- some analytics thing, like genre, or maybe some running tally of something (think on this one more)
+- genius api -- can we get the overall song analysis if its there?
+    - yes, but all api calls (for a server side app) have to be authenticated via bearer token
+    - is it worth it to do login to get that info? probably eventually but not now
+- get tweets from artist?
+
+
+LIST OF IDEAS THAT I MAY SCRAp
+- playing card or other type of theme for the album cover and artist and stuff?
+    - like as the aesthetic pervading all the possible things to show, to
+    have some more consistency across things. idk tho bc i like it minimalistic
+- set display to none if youre checking how long the text would be (how many overflow lines it makes)
+
+LIST OF FUN THINGS THAT I HOPEFULLY COULD EVENTUALLY GET TO
+- some songs are special easter eggs that color the font in a special way,
+    add a special picture, etc.
+    - ex with hosono house i could make the title color be the blue of the album
+
+LIST OF THINGS I NEED TO DO BEFORE I RELEASE THE FIRST VERSION
+- buy domain
+- setup aws cloudfront distro
+- fix that pausing bug
+- change initial album pic with steps to get streaming going on your device
+- make images line up with the album cover
+- make sure the stream lasts the right amount of time. right now i think its tweakin rlly early lol
+- config for prod and dev
+- zoomies

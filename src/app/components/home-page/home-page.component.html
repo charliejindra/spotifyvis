@@ -1,19 +1,36 @@
-<div id="background" class="bg" [style.background-color]="bgcolor">
+<app-stream-audio></app-stream-audio>
+<div [ngSwitch]="view">
+    <div *ngSwitchCase="'queue'">
+        <app-queue-view 
+        [artist]="artist"
+        [songName]="songName"
+        [albumImg]="albumImg"
+        [bgcolor]="bgcolor" 
+        [bgdark]="bgdark"
+        [nextNames]="nextNames"
+        [nextArts]="nextArts"
+        [prevNames]="prevNames"
+        [prevArts]="prevArts">
+        </app-queue-view>
+    </div>
+    <div *ngSwitchDefault>
+        <app-classic-view 
+            [songName]="songName" 
+            [artist]="artist"
+            [complete]="complete"
+            [duration]="duration"
+            [bgcolor]="bgcolor"
+            [prevData]="prevData"
+            [newsHeadline]="newsHeadline"
+            [newsImgUrl]="newsImgUrl"
+            [newsDesc]="newsDesc"
+            [albumImg]="albumImg"
+            
+            [artistImg]="artistImg"
+            [wikiImg]="wikiImg"
+            [wikiCaption]="wikiCaption"
+            [data]="data"
+            [bgdark]="bgdark"
+            [secondaryDisplay]="secondaryDisplay"></app-classic-view>
+    </div>
 </div>
-<div class="frame noblur" style="display:inline-block;">
-    <img class="album_art" [src]="albumImg" style="height:90vh;
-"/>
-</div>
-<div class="frame noblur" style="display:inline-block;">
-    <h1>{{ playing }}</h1>
-    <h2>{{ artist }}</h2>
-    <div [style.width]="complete" style="height:3px; background: black; display:inline-block;"></div>
-    <div [style.width]="duration" style="height:3px; background: lightgrey; display:inline-block;"></div>
-    <br/>
-    <app-stream-audio></app-stream-audio>
-    <br/>
-    <h1>{{ newsHeadline }}</h1>
-    <h2>{{ newsDesc }}</h2>
-    <img class="news_img" [src]="newsImgUrl"/>
-</div>
-<!-- <h1>home</h1> -->

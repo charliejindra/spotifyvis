@@ -1,0 +1,41 @@
+
+
+button {
+    background-color: #23b83c;
+	border: 2px solid black;
+	color: whitesmoke;
+	padding: 1em 1.5em;
+	text-align: center;
+	text-decoration: none;
+	font-size: 1em;
+	display: inline-block;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+/* .parent > * {
+    position: relative;
+} */
+
+.bg {
+	background-image: linear-gradient(#45ff54, whitesmoke, white);
+	height: 500px;
+}
+
+h1 {
+    font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
+    font-size: 7vh;
+    font-weight: bold;
+    font-style: italic;
+    color:black;
+    text-align: center;
+}
+
+h3 {
+    font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
+    font-size: 4vh;
+    font-weight: bold;
+    font-style: italic;
+    color:black;
+    text-align: center;
+}

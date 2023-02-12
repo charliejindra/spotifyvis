@@ -11,21 +11,7 @@ export class AppConfig {
     }
 
     load(){
-        this.loadScripts();
-    }
-
-    private loadScripts(){
-        const sdkscript = "https://sdk.scdn.co/spotify-player.js";
-        const scripts = [sdkscript];
-
-        for(let i = 0; i < scripts.length; i++){
-            const node = document.createElement('script');
-            node.src = scripts[i];
-            node.type = 'text/javascript';
-            node.async = false;
-            const thingy = document.getElementsByTagName('head')[0];
-            thingy.appendChild(node);
-        }
+        // we could load scripts here if we need em real early
     }
 
 }

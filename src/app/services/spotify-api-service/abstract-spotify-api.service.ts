@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 export abstract class AbstractSpotifyApiService {
     public abstract spotifyApi: any;

@@ -1,0 +1,4 @@
+<div class="wikiImgBox center-cropped" [id]="hasCaption ? 'withCaption' : 'noCaption'">
+    <img [src]="wikiImg" class="image-fit" [id]="night ? 'night' : 'day'"/>
+    <h3 [class]="night ? 'night' : 'day'">{{wikiCaption}}</h3>
+</div>
