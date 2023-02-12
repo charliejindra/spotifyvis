@@ -22,14 +22,14 @@ img.box-shadow {
 }
 
 h2 {
-  font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+  font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
   font-size: 5vh;
   font-weight: bold;
   /* font-style: italic; */
 }
 
 h3 {
-  font-family: Sitka Banner , Arial, Helvetica, sans-serif;
+  font-family: Bahnschrift SemiBold , Arial, Helvetica, sans-serif;
   /* overflow-wrap: break-word;  */
   font-size: 3vh;
 }

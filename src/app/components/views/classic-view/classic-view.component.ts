@@ -35,4 +35,9 @@ export class ClassicViewComponent {
     }};
   }
 
+  boxshadowConcat(){
+    var result = `3px 3px ${this.bgdark}`;
+    return result;
+  }
+
 }

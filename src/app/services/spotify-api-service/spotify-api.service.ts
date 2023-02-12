@@ -42,7 +42,15 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
         sleep(500).then(() => {
+            //var access_expiry_time = new Date(Date.parse(localStorage.getItem('access_token_expiry')));
+            var now_time = new Date(Date.now());
+            console.log(parseInt(localStorage.getItem('access_token_expiry')) < now_time.getTime());
+            console.log(`${parseInt(localStorage.getItem('access_token_expiry'))} < ${now_time.getTime()} `)
+            if (parseInt(localStorage.getItem('access_token_expiry')) < now_time.getTime()){
+                this.authService.requestRefreshToken();
+            }
             this.checkForOldSong();
+
         });
     }
 

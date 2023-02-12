@@ -1,21 +1,19 @@
 h1.day {
-  font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+  font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
   font-size: 7vh;
   font-weight: bold;
-  font-style: italic;
   color:black;
 }
 
 h1.night {
-font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
 font-size: 7vh;
 font-weight: bold;
-font-style: italic;
 color:white;
 }
 
 h2.day {
-font-family: Sitka Banner , Arial, Helvetica, sans-serif;
+font-family: Bahnschrift SemiBold , Arial, Helvetica, sans-serif;
 color:black;
 /* overflow-wrap: break-word;  */
 font-size: 5vh;
@@ -23,7 +21,7 @@ font-weight: lighter;
 }
 
 h2.night {
-font-family: Sitka Banner, Arial, Helvetica, sans-serif;
+font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
 color:white;
 /* overflow-wrap: break-word;  */
 font-size: 5vh;
@@ -83,7 +81,7 @@ h3 {
 .noblur {
   filter: blur(0);
   display:inline-block; 
-  width: calc(45vw - var(--outside-padding));
+  width: calc(50vw - var(--outside-padding));
 }
 
 #background {

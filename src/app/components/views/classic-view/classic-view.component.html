@@ -1,6 +1,6 @@
 <div id="background" class="bg" [style.background-color]="bgcolor">
 </div>
-<div class="frame noblur box-shadow" style="display:inline-block;">
+<div class="frame noblur" [style.box-shadow]="boxshadowConcat()" style="display:inline-block;">
     <img class="album_art" id="bg_album" [src]="albumImg"/>
 </div>
 <div class="noblur" style="display:inline-block; width: 45vw" >
@@ -32,6 +32,7 @@
             <wiki-card [night]="nightMode"></wiki-card>
         </div>
     </div>
+    <!-- <img src="assets/img/linernotesinstruction.gif" /> -->
     
     
     

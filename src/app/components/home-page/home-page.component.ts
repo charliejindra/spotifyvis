@@ -158,9 +158,10 @@ export class HomePageComponent {
     } else {
       this.songName = "Play a song to get started!"
       this.artist = "Play a song to get started!";
-      this.albumImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/1200px-Square_-_black_simple.svg.png";
+      this.albumImg = "assets/img/linernotesinstruction.gif";
       this.complete = "0vw";
       this.duration = "50vw";
+      this.bgcolor = `rgb(51,51,153)`;
     }
   }
 
