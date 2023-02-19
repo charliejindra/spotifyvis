@@ -107,7 +107,6 @@ export class AuthService implements AbstractAuthService{
     this.refreshCall().subscribe(response => {
       console.log(response);
       console.log('hey! we refreshed the token at ' + new Date(Date.now()).toString() + ':)');
-      alert();
       localStorage.setItem('access_token_expiry', (Date.now() + this.time_till_expiry).toString())
       localStorage.setItem('access_token', response.access_token);
       this.spotifyAuthToken.next(response.access_token);
