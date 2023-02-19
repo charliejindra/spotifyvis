@@ -8,6 +8,7 @@ import { StreamAudioService } from 'src/app/services/stream-audio/stream-audio.s
 import { AbstractSpotifyApiService } from 'src/app/services/spotify-api-service/abstract-spotify-api.service';
 import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
 import { style } from '@angular/animations';
+import { AbstractWikiImageService } from 'src/app/services/wiki-image/abstract-wiki-image.service';
 
 @Component({
   selector: 'app-home-page',
@@ -56,7 +57,8 @@ export class HomePageComponent {
 
   constructor(private router:Router,
     public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
-    public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService){
+    public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService,
+    public wikiImage: AbstractWikiImageService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -121,7 +123,7 @@ export class HomePageComponent {
 
           this.songName = this.now["name"];
           
-          this.processDataService.getWikipediaImage(this.artistList);
+          this.wikiImage.getWikipediaImage(this.artistList);
 
           //this.processDataService.newsAPI(this.artist);
 
@@ -193,7 +195,7 @@ export class HomePageComponent {
       
     });
 
-    this.processDataService.wikiImagePacket.subscribe((packet)=> {
+    this.wikiImage.wikiImagePacket.subscribe((packet)=> {
       // log will give many chances to even a few number of pictures
       // and then reward tickets in diminishing returns the more pictures we have
       this.pushTickets(this.secondaryDisplayOptions[1], Math.floor(this.getBaseLog(1.35, packet.imageQty)));

@@ -26,6 +26,8 @@ import { CallbackComponent } from './components/callback/callback.component';
 import { WikiCardComponent } from './components/info-card/wiki/wiki-card.component';
 import { ClassicViewComponent } from './components/views/classic-view/classic-view.component';
 import { QueueViewComponent } from './components/views/queue-view/queue-view.component';
+import { AbstractWikiImageService } from './services/wiki-image/abstract-wiki-image.service';
+import { WikiImageService } from './services/wiki-image/wiki-image.service';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -55,7 +57,8 @@ export function initializeApp(appconfig: AppConfig){
     { provide: AbstractPrettifyService, useClass: PrettifyService},
     { provide: AbstractAuthService, useClass: AuthService },
     {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService},
-    {provide: AbstractThrottleService, useClass: ThrottleService}
+    {provide: AbstractThrottleService, useClass: ThrottleService},
+    { provide: AbstractWikiImageService, useClass: WikiImageService }
   ],
   bootstrap: [AppComponent]
 })

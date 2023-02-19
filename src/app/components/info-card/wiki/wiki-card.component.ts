@@ -1,6 +1,7 @@
 //import { stringify } from '@angular/compiler/src/util';
 import { Component, Input } from '@angular/core';
 import { AbstractProcessDataService } from 'src/app/services/process-data-service/abstract-process-data.service';
+import { AbstractWikiImageService } from 'src/app/services/wiki-image/abstract-wiki-image.service';
 
 @Component({
   selector: 'wiki-card',
@@ -15,22 +16,18 @@ export class WikiCardComponent {
 
     @Input() night: boolean;
 
-    constructor(public processDataService: AbstractProcessDataService){
+    constructor(public wikiImage: AbstractWikiImageService){
         this.setUpSubscribers();
     }
 
     setUpSubscribers(){
 
-        this.processDataService.wikiImagePacket.subscribe((packet) => {
+        this.wikiImage.wikiImagePacket.subscribe((packet) => {
             this.wikiImg = packet["src"];
             this.wikiCaption = packet["caption"];
             this.hasCaption = this.wikiCaption != '';
         });
 
-    }
-
-    ngOnDestroy(){
-        this.processDataService.wikiImagePacket.unsubscribe();
     }
 
 }
