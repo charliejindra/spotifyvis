@@ -33,10 +33,12 @@ export class WikiImageService implements AbstractWikiImageService {
         var artist = artistList[Math.floor(Math.random() * artistList.length)];
         (async () => {
             try {
-                const page = await wiki.page(artist);
+                let page = await wiki.page(artist);
                 const results = await wiki.search(artist);
+                page = this.pareSearch(results, artist);
                 //wiki.
                 console.log(page);
+                page = await wiki.page(page.pageid);
                 //Response of type @Page object
                 var images = await page.media();
                 images = images.items;
@@ -99,6 +101,30 @@ export class WikiImageService implements AbstractWikiImageService {
             }
         });
         return result;
+    }
+
+
+    // todo: pare search further by seeing if any of the pages contains the name of
+    // the song or album in question. if it does then check if theres more than like
+    // 2 images on the page and if there are, weigh showing those images pretty heavily.
+    private pareSearch(results: any, artist: any) {
+        var pick = {};
+        var picked = false;
+        console.log(results);
+        results.results.forEach(page => {
+            var title = page.title.toUpperCase();
+            if(picked == false){
+                if(title.search("(BAND)") != -1 || title.search("(ARIST)") != -1 || title.search("(SINGER)") != -1 && title.search(artist.toUpperCase()) != -1){
+                    pick = page;
+                    picked = true;
+                }
+            }
+            
+        });
+        if (picked == false){
+            return results.results["0"];
+        }
+        return pick;
     }
 
 }
