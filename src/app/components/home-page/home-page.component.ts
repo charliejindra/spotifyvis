@@ -8,6 +8,8 @@ import { StreamAudioService } from 'src/app/services/stream-audio/stream-audio.s
 import { AbstractSpotifyApiService } from 'src/app/services/spotify-api-service/abstract-spotify-api.service';
 import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-api.service';
 import { style } from '@angular/animations';
+import { AbstractSuggesterService } from 'src/app/services/song-suggester/abstract-suggester.service';
+import { AbstractSongDataService } from 'src/app/services/song-data/abstract.song-data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -21,6 +23,8 @@ export class HomePageComponent {
 
   public now: any;
   public songName: any;
+  public songId: string;
+  public albumId: string;
   public albumImg: any;
   public artist: any;
   public complete: any;
@@ -39,7 +43,8 @@ export class HomePageComponent {
   public secondaryDisplayOptions = [
     "Spotify Image",
     "Wiki Image",
-    "News"
+    "News",
+    "Suggester"
   ];
   public secondaryDisplay = "Spotify Image";
   public artistList = [];
@@ -56,7 +61,8 @@ export class HomePageComponent {
 
   constructor(private router:Router,
     public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
-    public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService){
+    public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService, public suggester: AbstractSuggesterService,
+    public songData: AbstractSongDataService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -94,7 +100,6 @@ export class HomePageComponent {
       } else {
 
         this.processDataService.getColor(this.now["album"]["images"][0]["url"]);
-        console.log(this.secondaryDisplay);
 
         // most operations should not be redone if the song is the same
         if((this.prevData.uri != this.now.uri) || !this.prevData){
@@ -120,6 +125,15 @@ export class HomePageComponent {
           this.processDataService.getArtistImage(artistId);
 
           this.songName = this.now["name"];
+          this.songId = this.now["id"];
+
+          this.albumId = this.now["album"]["id"];
+
+          this.spotify.getSongData(this.songId);
+          this.spotify.trackMd.subscribe(result => {
+            this.suggester.getSuggestions(this.songId, this.albumId, this.artist);
+          });
+
           
           this.processDataService.getWikipediaImage(this.artistList);
 
@@ -191,6 +205,12 @@ export class HomePageComponent {
     
     this.processDataService.rymReviewPacket.subscribe((packet)=>{
       
+    });
+
+    this.suggester.suggesterPacket.subscribe((packet)=> {
+      this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[3]);
+      this.secondaryDisplay = this.throttle.weighOptions(this.secondaryDisplayActiveOptions);
+      //this.secondaryDisplay = 'Suggester';
     });
 
     this.processDataService.wikiImagePacket.subscribe((packet)=> {

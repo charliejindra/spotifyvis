@@ -238,7 +238,7 @@ export class ProcessDataService implements AbstractProcessDataService {
             try {
                 const page = await wiki.page(artist);
                 //wiki.
-                console.log(page);
+                //console.log(page);
                 //Response of type @Page object
                 var images = await page.media();
                 images = images.items;

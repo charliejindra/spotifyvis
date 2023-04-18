@@ -51,8 +51,8 @@ export class AuthService implements AbstractAuthService{
 
   public redirectToSpotify(){
     const client_id = '121cf4b598474a6a85dcc9d2ca875dbc';
-    //const redirect_uri = 'http%3A%2F%2Flocalhost%3A4200%2Fcallback';
-    const redirect_uri = 'https%3A%2F%2Fd24tpas7qsgc64.cloudfront.net%2Fcallback';
+    const redirect_uri = 'http%3A%2F%2Flocalhost%3A4200%2Fcallback';
+    //const redirect_uri = 'https%3A%2F%2Fd24tpas7qsgc64.cloudfront.net%2Fcallback';
     const scope = 'user-read-private%20user-read-email%20%20user-read-playback-state%20streaming';
     window.location.href = 
     `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`;
@@ -79,16 +79,16 @@ export class AuthService implements AbstractAuthService{
       json: true
     }
     var formBody = [];
-    let payload = {
-      code: this.code,
-      redirect_uri: 'https://d24tpas7qsgc64.cloudfront.net/callback',
-      grant_type: 'authorization_code'
-    }
     // let payload = {
     //   code: this.code,
-    //   redirect_uri: 'http://localhost:4200/callback',
+    //   redirect_uri: 'https://d24tpas7qsgc64.cloudfront.net/callback',
     //   grant_type: 'authorization_code'
     // }
+    let payload = {
+      code: this.code,
+      redirect_uri: 'http://localhost:4200/callback',
+      grant_type: 'authorization_code'
+    }
     for (var property in payload) {
       var encodedKey = encodeURIComponent(property);
       var encodedValue = encodeURIComponent(payload[property]);
@@ -107,7 +107,6 @@ export class AuthService implements AbstractAuthService{
     this.refreshCall().subscribe(response => {
       console.log(response);
       console.log('hey! we refreshed the token at ' + new Date(Date.now()).toString() + ':)');
-      alert();
       localStorage.setItem('access_token_expiry', (Date.now() + this.time_till_expiry).toString())
       localStorage.setItem('access_token', response.access_token);
       this.spotifyAuthToken.next(response.access_token);
