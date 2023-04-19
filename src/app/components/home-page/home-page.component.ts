@@ -130,9 +130,7 @@ export class HomePageComponent {
           this.albumId = this.now["album"]["id"];
 
           this.spotify.getSongData(this.songId);
-          this.spotify.trackMd.subscribe(result => {
-            this.suggester.getSuggestions(this.songId, this.albumId, this.artist);
-          });
+          
 
           
           this.processDataService.getWikipediaImage(this.artistList);
@@ -197,6 +195,7 @@ export class HomePageComponent {
       }
     });
 
+    
     this.processDataService.artistImagePacket.subscribe((packet)=> {
       this.artistImg = packet.src;
       this.secondaryDisplayActiveOptions.push(this.secondaryDisplayOptions[0]);
@@ -205,6 +204,11 @@ export class HomePageComponent {
     
     this.processDataService.rymReviewPacket.subscribe((packet)=>{
       
+    });
+
+    // set up suggester call
+    this.spotify.trackMd.subscribe(result => {
+      this.suggester.getSuggestions(this.songId, this.albumId, this.artist);
     });
 
     this.suggester.suggesterPacket.subscribe((packet)=> {

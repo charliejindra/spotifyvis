@@ -18,18 +18,20 @@ export class SuggesterService implements AbstractSuggesterService{
 
   public getSuggestions(trackId: string, albumId: string, artist: string) {
     this.spotify.getRecommendations(trackId).then((result) => {
+      let track1 = result["tracks"][0]["name"].substring(0,25);
+      let track2 = result["tracks"][1]["name"].substring(0,25);
       this.suggesterPacket.next({
         done: true,
         tracks: [
           {
             image: result["tracks"][0]["album"]["images"][0]["url"],
-            title: result["tracks"][0]["name"],
+            title: track1,
             artist: result["tracks"][0]["artists"][0]["name"],
             uri: result["tracks"][0]["uri"]
           },
           {
             image: result["tracks"][1]["album"]["images"][0]["url"],
-            title: result["tracks"][1]["name"],
+            title: track2,
             artist: result["tracks"][1]["artists"][0]["name"],
             uri: result["tracks"][1]["uri"]
           }

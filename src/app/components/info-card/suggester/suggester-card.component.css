@@ -1,6 +1,6 @@
 .img {
-    width: 16vw;
-    height: 16vw;
+    width: 20vw;
+    height: 20vw;
 
 }
 
@@ -35,4 +35,8 @@ p.title {
 
 p.artist {
     font-weight: initial;
+}
+
+.cardLabel {
+    margin: 2vh;
 }
