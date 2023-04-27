@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { AbstractAuthService } from '../auth-service/abstract-auth-service';
+import { AbstractSongDataService } from '../song-data/abstract.song-data.service';
+import { SongDataService } from '../song-data/song-data.service';
 import { AbstractSpotifyApiService } from './abstract-spotify-api.service';
 
 @Injectable({
@@ -13,8 +15,15 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
   
     public spotifyApi: any;
     public trackData: BehaviorSubject<any>;
+    public recommendations: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
-    constructor(router: Router, public authService: AbstractAuthService) { 
+    public trackMd: BehaviorSubject<any> = new BehaviorSubject<any>({
+        album: {
+            id: null
+        }
+    });
+
+    constructor(router: Router, public authService: AbstractAuthService, public songData: AbstractSongDataService) { 
         
         this.trackData = new BehaviorSubject<any>(null);
         this.spotifyApi = new SpotifyWebApi();
@@ -44,13 +53,36 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
         sleep(500).then(() => {
             //var access_expiry_time = new Date(Date.parse(localStorage.getItem('access_token_expiry')));
             var now_time = new Date(Date.now());
-            console.log(parseInt(localStorage.getItem('access_token_expiry')) < now_time.getTime());
-            console.log(`${parseInt(localStorage.getItem('access_token_expiry'))} < ${now_time.getTime()} `)
+            //console.log(parseInt(localStorage.getItem('access_token_expiry')) < now_time.getTime());
+            //torage.getItem('access_token_expiry'))} < ${now_time.getTime()} `)
             if (parseInt(localStorage.getItem('access_token_expiry')) < now_time.getTime()){
                 this.authService.requestRefreshToken();
             }
             this.checkForOldSong();
 
+        });
+    }
+
+    public getSongData(trackId) {
+        this.spotifyApi.getTrack(trackId).then((results)=>{
+            //console.log(results);
+            this.trackMd.next(results);
+        });
+    }
+
+    public getRecommendations(trackId): any{
+        
+        return this.spotifyApi.getRecommendations({
+            seed_tracks: [trackId]
+        }).then((results => {
+            return results;
+        }));
+        
+    }
+
+    public addTrackToQueue(trackURI): void{
+        this.spotifyApi.queue(trackURI).then(results => {
+            console.log(results);
         });
     }
 
