@@ -180,3 +180,7 @@ div.frame {
   left:0;
   display:none;
 }
+
+.frame:active .pauseButton {
+  opacity: 50%;
+}
