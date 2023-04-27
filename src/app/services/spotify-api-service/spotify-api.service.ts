@@ -86,6 +86,17 @@ export class SpotifyApiService implements AbstractSpotifyApiService{
         });
     }
 
+    public pause() {
+        this.spotifyApi.getMyCurrentPlaybackState().then(result => {
+            if(result["is_playing"]){
+                this.spotifyApi.pause();
+            }else{
+                this.spotifyApi.play();
+            }
+        });
+        
+    }
+
     // private checkForNewSong(){
     //     const sleep = (milliseconds) => {
     //         return new Promise(resolve => setTimeout(resolve, milliseconds))

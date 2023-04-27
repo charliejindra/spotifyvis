@@ -1,8 +1,11 @@
+
 <div id="background" class="bg" [style.background-color]="bgcolor">
 </div>
-<div class="frame noblur" [style.box-shadow]="boxshadowConcat()" style="display:inline-block;">
+<div class="frame noblur" [style.box-shadow]="boxshadowConcat()" style="display:inline-block;" (click)="pausePlayer()">
     <img class="album_art" id="bg_album" [src]="albumImg"/>
+    <i class="fas fa-pause-circle pauseButton"></i>
 </div>
+
 <div class="noblur" style="display:inline-block; width: 45vw" >
     <div *ngIf="nightMode; else dayMode">
         <h1 id="song_title" class="night">
