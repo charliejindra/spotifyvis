@@ -17,23 +17,39 @@
     opacity: 50%;
 }
 
-p {
+p.day {
     font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
     font-size: 2.3vh;
     word-break: break-all;
+    color: black;
 }
 
-h3 {
+p.night {
+    font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
+    font-size: 2.3vh;
+    word-break: break-all;
+    color: whitesmoke;
+}
+
+h3.day {
     font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
     font-size: 3vh;
     word-break: break-all;
+    color:black;
 }
 
-p.title {
+h3.night {
+    font-family: Bahnschrift SemiBold, Arial, Helvetica, sans-serif;
+    font-size: 3vh;
+    word-break: break-all;
+    color: whitesmoke;
+}
+
+p#title {
     font-weight: bold;
 }
 
-p.artist {
+p#artist {
     font-weight: initial;
 }
 

@@ -28,6 +28,7 @@ export class ClassicViewComponent {
   @Input() wikiImg: any;
   @Input() wikiCaption: string;
   @Input() story = false;
+  @Input() nightMode: boolean;
 
 
   constructor(public prettify: AbstractPrettifyService, public spotify: AbstractSpotifyApiService){
