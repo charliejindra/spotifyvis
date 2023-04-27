@@ -157,3 +157,8 @@ max-width: 50vw;
 .artistImgBox {
 height: calc(68vh - var(--outside-padding));
 }
+
+#card {
+  min-height: calc(68vh - var(--outside-padding));
+  min-width: calc(48vh - var(--outside-padding));
+}

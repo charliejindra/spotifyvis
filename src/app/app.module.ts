@@ -26,6 +26,11 @@ import { CallbackComponent } from './components/callback/callback.component';
 import { WikiCardComponent } from './components/info-card/wiki/wiki-card.component';
 import { ClassicViewComponent } from './components/views/classic-view/classic-view.component';
 import { QueueViewComponent } from './components/views/queue-view/queue-view.component';
+import { SuggesterComponent } from './components/info-card/suggester/suggester-card.component';
+import { AbstractSuggesterService } from './services/song-suggester/abstract-suggester.service';
+import { SuggesterService } from './services/song-suggester/suggester.service';
+import { AbstractSongDataService } from './services/song-data/abstract.song-data.service';
+import { SongDataService } from './services/song-data/song-data.service';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -40,7 +45,8 @@ export function initializeApp(appconfig: AppConfig){
     LandingPageComponent,
     CallbackComponent,
     ClassicViewComponent,
-    QueueViewComponent
+    QueueViewComponent,
+    SuggesterComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,9 @@ export function initializeApp(appconfig: AppConfig){
     { provide: AbstractPrettifyService, useClass: PrettifyService},
     { provide: AbstractAuthService, useClass: AuthService },
     {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService},
-    {provide: AbstractThrottleService, useClass: ThrottleService}
+    {provide: AbstractThrottleService, useClass: ThrottleService},
+    {provide: AbstractSuggesterService, useClass: SuggesterService},
+    { provide: AbstractSongDataService, useClass: SongDataService }
   ],
   bootstrap: [AppComponent]
 })
