@@ -72,15 +72,19 @@ export class HomePageComponent {
     });
   }
 
+
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
     switch(event.key) {
+      // expand or contract the view
       case 'w':
         this.prettify.adjustPadding();
         break;
       case 'q':
         this.prettify.adjustPadding(false);
         break;
+      case ' ':
+        this.spotify.pause();
     }
     
   }

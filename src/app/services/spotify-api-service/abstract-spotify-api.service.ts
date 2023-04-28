@@ -8,4 +8,5 @@ export abstract class AbstractSpotifyApiService {
     public abstract getRecommendations: any;
     public abstract recommendations: BehaviorSubject<any>;
     public abstract addTrackToQueue(trackURI): void;
+    public abstract pause(): void;
 }
