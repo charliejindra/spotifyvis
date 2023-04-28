@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractPrettifyService } from 'src/app/services/prettify-service/abstract-prettify.service';
+import { AbstractSpotifyApiService } from 'src/app/services/spotify-api-service/abstract-spotify-api.service';
 
 @Component({
   selector: 'app-classic-view',
@@ -27,9 +28,10 @@ export class ClassicViewComponent {
   @Input() wikiImg: any;
   @Input() wikiCaption: string;
   @Input() story = false;
+  @Input() nightMode: boolean;
 
 
-  constructor(public prettify: AbstractPrettifyService){
+  constructor(public prettify: AbstractPrettifyService, public spotify: AbstractSpotifyApiService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -38,6 +40,10 @@ export class ClassicViewComponent {
   boxshadowConcat(){
     var result = `3px 3px ${this.bgdark}`;
     return result;
+  }
+
+  pausePlayer(){
+    this.spotify.pause();
   }
 
 }
