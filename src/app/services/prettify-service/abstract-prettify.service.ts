@@ -8,4 +8,5 @@ export abstract class AbstractPrettifyService {
     public abstract hexBgDark: any;
     public abstract adjustPadding(increase?: boolean);
     public abstract genAlternateColor();
+    public abstract prettifyGenius(desc);
 }

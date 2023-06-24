@@ -1,0 +1,45 @@
+
+    {
+        "tag": "p",
+        "children": [
+            "“El Paso” by Marty Robbins appears on his 1959 album, ",
+            {
+                "tag": "em",
+                "children": [
+                    "Gunfighter Ballads and Trail Songs"
+                ]
+            },
+            "."
+        ],
+        "content": "“El Paso” by Marty Robbins appears on his 1959 album, "
+    },
+    "",
+    {
+        "tag": "p",
+        "children": [
+            "This song won the Grammy Award for Best Country & Western Recording of 1960. It’s a story song, sung in the first person about forbidden love and a jealous boyfriend.  Like ",
+            {
+                "tag": "a",
+                "attributes": {
+                    "href": "https://genius.com/Warren-zevon-jeannie-needs-a-shooter-lyrics",
+                    "rel": "noopener"
+                },
+                "data": {
+                    "api_path": "/songs/651864"
+                },
+                "children": [
+                    "Warren Zevon’s “Jeannie Needs a Shooter”"
+                ]
+            },
+            ", the story ends poorly for the protagonist."
+        ],
+        "content": "This song won the Grammy Award for Best Country & Western Recording of 1960. It’s a story song, sung in the first person about forbidden love and a jealous boyfriend.  Like "
+    },
+    "",
+    {
+        "tag": "p",
+        "children": [
+            "This song is listed in CMT’s 500 Greatest Songs of Country Music."
+        ],
+        "content": "This song is listed in CMT’s 500 Greatest Songs of Country Music."
+    }

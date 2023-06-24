@@ -31,6 +31,9 @@ import { AbstractSuggesterService } from './services/song-suggester/abstract-sug
 import { SuggesterService } from './services/song-suggester/suggester.service';
 import { AbstractSongDataService } from './services/song-data/abstract.song-data.service';
 import { SongDataService } from './services/song-data/song-data.service';
+import { AbstractGeniusService } from './services/genius/abstract-genius.service';
+import { GeniusService } from './services/genius/genius.service';
+import { GeniusComponent } from './components/info-card/genius/genius-card.component';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -46,7 +49,8 @@ export function initializeApp(appconfig: AppConfig){
     CallbackComponent,
     ClassicViewComponent,
     QueueViewComponent,
-    SuggesterComponent
+    SuggesterComponent,
+    GeniusComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,8 @@ export function initializeApp(appconfig: AppConfig){
     {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService},
     {provide: AbstractThrottleService, useClass: ThrottleService},
     {provide: AbstractSuggesterService, useClass: SuggesterService},
-    { provide: AbstractSongDataService, useClass: SongDataService }
+    { provide: AbstractSongDataService, useClass: SongDataService },
+    { provide: AbstractGeniusService, useClass: GeniusService}
   ],
   bootstrap: [AppComponent]
 })

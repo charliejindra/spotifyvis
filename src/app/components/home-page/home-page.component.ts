@@ -10,6 +10,7 @@ import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-
 import { style } from '@angular/animations';
 import { AbstractSuggesterService } from 'src/app/services/song-suggester/abstract-suggester.service';
 import { AbstractSongDataService } from 'src/app/services/song-data/abstract.song-data.service';
+import { AbstractGeniusService } from 'src/app/services/genius/abstract-genius.service';
 
 @Component({
   selector: 'app-home-page',
@@ -62,7 +63,7 @@ export class HomePageComponent {
   constructor(private router:Router,
     public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
     public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService, public suggester: AbstractSuggesterService,
-    public songData: AbstractSongDataService){
+    public songData: AbstractSongDataService, public genius: AbstractGeniusService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -135,8 +136,10 @@ export class HomePageComponent {
 
           this.spotify.getSongData(this.songId);
           
+          // probably going to want to somehow limit this so we dont call every time
+          // actually maybe going to want to do that for multiple cards
+          this.genius.getSongDescription(this.songName, this.artist);
 
-          
           this.processDataService.getWikipediaImage(this.artistList);
 
           //this.processDataService.newsAPI(this.artist);

@@ -177,7 +177,34 @@ export class PrettifyService implements AbstractPrettifyService{
   rgbToHex(r, g, b) {
     return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
   }
-  
+
+  public prettifyGenius(desc) {
+    let result = '';
+    if(desc.children){
+      desc.children.forEach((element) => {
+        if(typeof element != 'object'){
+          const indexOfEl = desc.children.indexOf(element);
+          desc.children[indexOfEl] = {
+            tag: 'br'
+          }
+        }
+        if (element.tag == 'p'){
+          let paragraph = '';
+          element.children.forEach((child) => {
+            if (typeof child == 'object') {
+              paragraph = paragraph + child.children[0];
+            } else {
+              paragraph = paragraph + child;
+            }
+            
+          });
+          element.content = paragraph;
+        }
+      })
+    }
+    return desc;
+    
+  }
 
 }
 
@@ -210,3 +237,6 @@ function removeAndAppendMarquee(sWidth, hWidth, el) {
   sheet.insertRule(styles);
 
 }
+
+
+

@@ -28,7 +28,7 @@
         <!-- <div [hidden]="secondaryDisplay != 'News'">
             <news-card [night]="nightMode"></news-card>
         </div> -->
-        <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
+        <!-- <div [hidden]="secondaryDisplay != 'Spotify Image'" class="artistImgBox center-cropped">
             <img *ngIf="artistImg" [src]="artistImg" class="image-fit" [id]="nightMode ? 'night' : 'day'"/>
         </div>
         <div [hidden]="secondaryDisplay != 'Wiki Image'">
@@ -36,6 +36,9 @@
         </div>
         <div [hidden]="secondaryDisplay != 'Suggester'">
             <suggester [night]="nightMode"></suggester>
+        </div> -->
+        <div>
+            <genius></genius>
         </div>
     </div>
     <!-- <img src="assets/img/linernotesinstruction.gif" /> -->
