@@ -10,6 +10,7 @@ import { SpotifyApiService } from 'src/app/services/spotify-api-service/spotify-
 import { style } from '@angular/animations';
 import { AbstractSuggesterService } from 'src/app/services/song-suggester/abstract-suggester.service';
 import { AbstractSongDataService } from 'src/app/services/song-data/abstract.song-data.service';
+import { ConfigFactory, ConfigService } from 'src/app/services/config/config.service';
 
 @Component({
   selector: 'app-home-page',
@@ -62,7 +63,7 @@ export class HomePageComponent {
   constructor(private router:Router,
     public authService: AbstractAuthService, public spotify: AbstractSpotifyApiService, public streamAudio: StreamAudioService, public throttle: AbstractThrottleService, 
     public processDataService: AbstractProcessDataService, public prettify: AbstractPrettifyService, public suggester: AbstractSuggesterService,
-    public songData: AbstractSongDataService){
+    public songData: AbstractSongDataService, private config: ConfigService){
     this.prevData = {"item": {
       "uri": ""
     }};
@@ -79,6 +80,10 @@ export class HomePageComponent {
       // expand or contract the view
       case 'w':
         this.prettify.adjustPadding();
+        const configObject = ConfigFactory(this.config);
+        console.log(this.config);
+        const something = this.config.get('streaming_sdk')
+        
         break;
       case 'q':
         this.prettify.adjustPadding(false);
