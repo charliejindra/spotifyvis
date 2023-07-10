@@ -3,6 +3,7 @@ import { AbstractThrottleService } from '../throttle-service/abstract-throttle.s
 import { AbstractPrettifyService } from './abstract-prettify.service';
 import { HostListener, Injectable } from '@angular/core';
 import { style } from '@angular/animations';
+import { ConfigFactory, ConfigService } from '../config/config.service';
 
 var sheet: any;
 
@@ -16,7 +17,7 @@ export class PrettifyService implements AbstractPrettifyService{
   public hexBgDark: any;
   public hexBg: any;
 
-  constructor(public process: AbstractProcessDataService) {
+  constructor(public process: AbstractProcessDataService, private config: ConfigService) {
 
     if(!localStorage.getItem('outside-padding')){
       localStorage.setItem('outside-padding', '0px');
@@ -115,6 +116,8 @@ export class PrettifyService implements AbstractPrettifyService{
 
     result = result.replace(' ', '-');
     result = result.toLowerCase();
+    
+
 
     return result;
 

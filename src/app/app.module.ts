@@ -31,6 +31,7 @@ import { AbstractSuggesterService } from './services/song-suggester/abstract-sug
 import { SuggesterService } from './services/song-suggester/suggester.service';
 import { AbstractSongDataService } from './services/song-data/abstract.song-data.service';
 import { SongDataService } from './services/song-data/song-data.service';
+import { ConfigModule, ConfigService } from './services/config/config.service';
 export function initializeApp(appconfig: AppConfig){
   return() => appconfig.load();
 }
@@ -63,7 +64,9 @@ export function initializeApp(appconfig: AppConfig){
     {provide:  AbstractSpotifyApiService, useClass: SpotifyApiService},
     {provide: AbstractThrottleService, useClass: ThrottleService},
     {provide: AbstractSuggesterService, useClass: SuggesterService},
-    { provide: AbstractSongDataService, useClass: SongDataService }
+    { provide: AbstractSongDataService, useClass: SongDataService },
+    ConfigService,
+    ConfigModule.init()
   ],
   bootstrap: [AppComponent]
 })
