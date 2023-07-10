@@ -15,9 +15,8 @@ export class GeniusService {
   private options: {};
 
   constructor(private http: HttpClient, private prettify: AbstractPrettifyService, private config: ConfigService) {
-    const configObject = ConfigFactory(config);
     this.options = {
-      apiKey: configObject,
+      apiKey: this.config.get('genius_access_token'),
       title: 'Blinding Lights',
       artist: 'The Weeknd',
       optimizeQuery: true
