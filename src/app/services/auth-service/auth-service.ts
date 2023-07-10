@@ -5,6 +5,7 @@ import { time } from 'console';
 import { BehaviorSubject, Observable, ObservableLike } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
 import SpotifyWebApi from 'spotify-web-api-js';
+import { ConfigService } from '../config/config.service';
 import { AbstractAuthService } from './abstract-auth-service';
 
 @Injectable({
@@ -20,7 +21,7 @@ export class AuthService implements AbstractAuthService{
   private time_till_expiry = 3000000;
   public spotifyAuthToken: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(public router: Router, public http: HttpClient, private actRoute: ActivatedRoute) {
+  constructor(public router: Router, public http: HttpClient, private actRoute: ActivatedRoute, private config: ConfigService) {
   }
 
   public init(response){
@@ -73,8 +74,8 @@ export class AuthService implements AbstractAuthService{
   }
 
   private finishCallback(): Observable<any> {
-    const client_id = '121cf4b598474a6a85dcc9d2ca875dbc';
-    const client_secret = '4e41d8b156c04844a01f773ea9bfebdf';
+    const client_id = this.config.get('spotify_client_id');
+    const client_secret = this.config.get('spotify_client_secret');
     let authOptions = {
       json: true
     }
@@ -118,8 +119,8 @@ export class AuthService implements AbstractAuthService{
   }
 
   private refreshCall(): Observable<any> {
-    const client_id = '121cf4b598474a6a85dcc9d2ca875dbc';
-    const client_secret = '4e41d8b156c04844a01f773ea9bfebdf';
+    const client_id = this.config.get('spotify_client_id');
+    const client_secret = this.config.get('spotify_client_secret');
     let authOptions = {
       json: true
     }
