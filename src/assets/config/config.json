@@ -1,5 +1,3 @@
 {
-    "streaming_sdk" : {
-        "script" : ""
-    }
+    "genius_api_key" : ""
 }
