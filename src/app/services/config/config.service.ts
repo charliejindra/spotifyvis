@@ -11,7 +11,7 @@ export class ConfigService {
     constructor(private _http: HttpClient) { }
     load() {
         return new Promise((resolve, reject) => {
-            this._env = 'config';
+            this._env = 'config.prod';
             console.log(this._env)
             this._http.get('./assets/config/' + this._env + '.json')
                 .subscribe((data) => {

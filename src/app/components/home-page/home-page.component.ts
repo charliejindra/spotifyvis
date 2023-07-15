@@ -82,7 +82,7 @@ export class HomePageComponent {
         this.prettify.adjustPadding();
         const configObject = ConfigFactory(this.config);
         console.log(this.config);
-        const something = this.config.get('streaming_sdk')
+        const something = this.config.get('spotify');
         
         break;
       case 'q':
